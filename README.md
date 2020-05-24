@@ -17,13 +17,13 @@ This solution has been created by following various tutorials and learning feeds
 * `Component Parameters`
 * `Event Handling` and `Event Callbacks`
 * Component Communication (Parent-Child, Child-Parent and across unrelated Components)
-* ViewModels and Automapper, Force Reloading Components, Tag Helpers, Loading indicator, Custom Supplemental JavaScript Interops, Mobile First Approach
+* `ViewModels` and `AutoMapper`, Force Reloading Components, Tag Helpers, Loading indicator, Custom Supplemental JavaScript Interops, Mobile First Approach
 
-![1](/Images/2020-05-24_181549.png?raw=true)
+![1](/Images/2020-05-24_181137.png?raw=true)
 
-![2](/Images/2020-05-24_181137.png?raw=true)
+![2](/Images/2020-05-24_181341.png?raw=true)
 
-![3](/Images/2020-05-24_181341.png?raw=true)
+![3](/Images/2020-05-24_181549.png?raw=true)
 
 
 
