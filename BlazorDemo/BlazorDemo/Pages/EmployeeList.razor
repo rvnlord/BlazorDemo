@@ -1,0 +1,49 @@
+﻿@page "/"
+@inherits EmployeeListBase
+
+<div class="row">
+    <div class="col-12">
+
+        <h3 class="mb-10px">Selected Employees Count: @SelectedEmployeesCount</h3>
+        <label class="my-checkbox-container">
+            <input type="checkbox" id="cbShowFooter" @bind="ShowFooter" />
+            <span class="my-checkmark"></span>
+            <label class="my-checkbox-label" for="cbShowFooter">Show Footer</label>
+        </label>
+
+    </div>
+</div>
+
+@if (ErrorMessage != null)
+{
+    <Prompt PromptType="@PromptType.Error" Message="@ErrorMessage"></Prompt>
+}
+
+@if (DeletedEmployeeMessage != null)
+{
+    <Prompt PromptType="@PromptType.Success" Message="@DeletedEmployeeMessage"></Prompt>
+}
+
+
+
+@if (Employees == null)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mw-100">
+        <div class="card-deck row">
+            @foreach (var employee in Employees)
+            {
+                <DisplayEmployee Employee="employee" ShowFooter="ShowFooter" OnEmployeeSelection="Employee_Selected" OnEmployeeDeleted="Employee_DeletedAsync"></DisplayEmployee>
+            }
+        </div>
+    </div>
+}

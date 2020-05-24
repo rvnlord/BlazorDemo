@@ -1,0 +1,28 @@
+﻿@inherits NavMenuBase
+
+<div class="top-row navbar">
+    <a href="">Blazor Server Demo</a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+    </button>
+</div>
+
+<div class="navbar-collapse collapse">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="fa fa-home" aria-hidden="true"></span><span>Home</span>
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="/editemployee" Match="NavLinkMatch.All">
+                <span class="fa fa-file" aria-hidden="true"></span><span>Create</span>
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="/editemployee/1" Match="NavLinkMatch.All">
+                <span class="fa fa-pencil" aria-hidden="true"></span><span>Edit</span>
+            </NavLink>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,20 @@
+﻿@page "/error"
+
+@using CommonLibrary.Converters
+
+@inherits PromptBase
+
+<div class="row">
+    <div class="col-12">
+        <div class="alert @_promptStylingClass align-items-center">
+            <div class="d-flex">
+                <div>
+                    <strong>@PromptType.EnumToString(): @Message</strong>
+                </div>
+                <button type="button" class="close ml-auto align-self-start">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

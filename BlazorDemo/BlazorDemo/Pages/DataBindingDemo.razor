@@ -1,0 +1,44 @@
+﻿@page "/databindingdemo"
+@inherits DataBindingDemoBase
+
+<div class="row">
+    <div class="col-12">
+
+        <h1>Data Binding Demo</h1>
+        <hr/>
+        <h3 class="my-10px">One Way Data Binding</h3>
+
+        <div>
+            <b>Name:</b> @Name
+        </div>
+        <div>
+            <b>Name with Salutation:</b> @(Gender == "Male" ? "Mr" : "Miss") @Name
+        </div>
+        <div>
+            <b>Name bound to input:</b> <input value="@Name" class="form-control mt-10px" style="display: inline-block; width: 200px;" />
+        </div>
+        
+        <h3 class="my-10px">Two Way Data Binding</h3>
+        
+        <div>
+            <b>Name bound to input:</b> <input value="@Name" @onchange="@(e => { Name = e.Value.ToString(); })" class="form-control" style="display: inline-block; width: 200px;" />
+        </div>
+        <div>
+            <b>Name bound to input:</b> <input @bind="@Name" class="form-control mt-10px" style="display: inline-block; width: 200px;" />
+        </div>
+        <div>
+            <b>Name bound to input:</b> <input @bind="Name" @bind:event="oninput" class="form-control mt-10px" style="display: inline-block; width: 200px;" />
+        </div>
+        <div>
+            <b>Bg Css:</b> <input @bind="BgStyle" class="form-control mt-10px" style="display: inline-block; width: 200px;" />
+        </div>
+        <div @bind-style="BgStyle" @bind-style:event="onchange" class="mt-10px">
+            <h3>Background color of this text changes</h3>
+        </div>
+        <div class="mt-10px">
+            <textarea @bind="Description" @bind:event="oninput" class="form-control" style="display: inline-block; width: 400px; height: calc(6rem + 10px); resize: none;"></textarea>
+            <div class="mt-10px">Characters Count: @(Description?.Length ?? 0)</div>
+        </div>
+
+    </div>
+</div>
