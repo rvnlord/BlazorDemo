@@ -8,8 +8,8 @@ This solution has been created by following various tutorials and learning feeds
 * One and two-way `Model Binding`, including binding to multiple database tables
 * Data Access Strategies with focus on `RESTful API` accessed from `Blazor` as a service through the `Dependency Injection` and utilizing the `Repository Pattern`
 * `Entity Framework Core` with `Model First` approach and `Migrations` to keep data in sync
-* Full set of `CRUD Operations` for `Model`
-* Various types of `Model and Single Property Validation` with focus on `DataAnnotations`, this includes custom attributes, methods, and approaches. This also includes fixing bugs with existing ones, creating custom validation and validating comnplex models as graphs.
+* Full set of model bound `CRUD Operations`
+* Various types of `Model and Single Property Validation` with focus on `DataAnnotations`, this includes custom attributes, methods, and approaches. This also includes fixing bugs with existing approaches, creating custom validators and validating comnplex models as graphs.
 * `Blazor Form`, `EditContext`, `ValidationContext`, `MessageStore` and sharing Validation Data
 * Examples of utilizing various `HTTP` methods (`GET`, `POST`, `PUT`, `DELETE`)
 * Search feature accessible through the `REST API`
