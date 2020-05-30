@@ -1,6 +1,6 @@
 ## Example Blazor Employees Management System
 
-This solution has been created by following various tutorials and learning feeds and it's purpose is to present my knowledge of `Blazor` to anybody who seeks to verify my knowledge. This project is work in progress and might be replaced at any given moment and without prior warning as soon as I have more meaningful example to share that can be made public.
+This solution has been created by following various tutorials and learning feeds. It's purpose is to present my knowledge of `Blazor` to anybody who seeks to verify my knowledge. This project is a work in progress and may be replaced without prior warning whenever I have more meaningful example that can be publicly shared.
    
 ### Currently Featuring:
 
