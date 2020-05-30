@@ -47,6 +47,8 @@ namespace BlazorDemo.Pages
 
         public List<Department> AvailableDepartments { get; set; } = new List<Department>();
 
+        public ConfirmationDialogBase DeleteConfirmation { get; set; }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (!firstRender)
@@ -123,10 +125,18 @@ namespace BlazorDemo.Pages
             }
         }
 
-        protected async Task BtnDelete_ClickAsync()
+        protected void BtnDelete_Click()
         {
-            await EmployeeService.DeleteEmployeeAsync(EditEmployeeVM.Id);
-            NavigationManager.NavigateTo("/");
+            DeleteConfirmation.Show();
+        }
+
+        protected async Task BtnConfirmDelete_ClickAsync(bool isDeleteConfirmed)
+        {
+            if (isDeleteConfirmed)
+            {
+                await EmployeeService.DeleteEmployeeAsync(EditEmployeeVM.Id);
+                NavigationManager.NavigateTo("/");
+            }
         }
 
         public void Dispose()

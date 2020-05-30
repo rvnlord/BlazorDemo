@@ -5,6 +5,10 @@
 @using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute
 @inherits EditEmployeeBase
 
+<ConfirmationDialog @ref="DeleteConfirmation" ConfirmationChanged="BtnConfirmDelete_ClickAsync"
+    ConfirmationMessage=@($"Are you sure you want to delete \"{EditEmployeeVM.FirstName}\"?")>
+</ConfirmationDialog>
+
 <div>
     <EditForm Model="EditEmployeeVM" OnValidSubmit="@EditForm_ValidSubmitAsync">
         <CustomDataAnnotationsValidator />
@@ -13,7 +17,6 @@
             <div class="col-12">
                 <h3>@PageHeaderText</h3>
                 <hr class="mt-10px" />
-
             </div>
         </div>
         <div class="row">
@@ -108,25 +111,14 @@
                 <ValidationMessage For="@(() => EditEmployeeVM.DateOfBirth)"></ValidationMessage>
             </div>
         </div>
-        @*<div class="row">
-                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
-                    <label for="inputDepartmentName" class="col-form-label">Department</label>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
-                    <InputText @bind-Value="EditEmployeeVM.Department.Name" id="inputDepartmentName" class="form-control" placeholder="Department Name..."/>
-                </div>
-                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
-                    <ValidationMessage For="@(() => EditEmployeeVM.Department.Name)"></ValidationMessage>
-                </div>
-            </div>*@
         <div class="row">
-            <div class="col-xl-1 col-lg-2 col-sm-4 col-12 offset-xl-2 offset-lg-3 offset-sm-6">
+            <div class="col-xl-1 col-lg-2 col-sm-4 col-12 offset-xl-2 offset-lg-3">
                 <button class="btn btn-primary w-100" type="submit">Submit</button>
             </div>
             @if (EditEmployeeVM.Id > 0)
             {
                 <div class="col-xl-1 col-lg-2 col-sm-4 col-12">
-                    <button class="btn btn-danger w-100" type="button" @onclick="BtnDelete_ClickAsync">Delete</button>
+                    <button class="btn btn-danger w-100" type="button" @onclick="BtnDelete_Click">Delete</button>
                 </div>
             }
         </div>

@@ -16,14 +16,15 @@ namespace BlazorDemo.Models
         [Required]
         public string LastName { get; set; }
 
+        //[ComparePropertyUnlessOtherProvided(nameof(ConfirmEmail))]
         [EmailAddress]
         [EmailDomain(AllowedDomain = "test.com")]
-        //[ComparePropertyUnlessOtherProvided(nameof(ConfirmEmail))]
+        [DisplayName("Company Email")]
         public string Email { get; set; }
 
         [ComparePropertyUnlessOtherIsNull(nameof(Email))]
         //[CompareProperty(nameof(Email))]
-        [DisplayName("Confirm Email")]
+        [DisplayName("Confirm Company Email")]
         public string ConfirmEmail { get; set; }
 
         public DateTime DateOfBirth { get; set; }

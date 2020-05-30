@@ -1,0 +1,34 @@
+﻿@inherits ConfirmationDialogBase
+
+@if (ShowConfirmation)
+{
+    <div class="modal d-block" tabindex="-1" id="confirmationModal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title">@ConfirmationTitle</h4>
+                    <button type="button" class="close ml-auto align-self-start" data-dismiss="modal" @onclick="() => OnConfirmationChange(false)">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @ConfirmationMessage
+                </div>
+                <div class="modal-footer p-0">
+                    <div class="container p-5px">
+                        <div class="row">
+                            <div class="offset-lg-6 col-lg-3 offset-md-4 col-md-4 col-12">
+                                <button @onclick="() => OnConfirmationChange(true)" type="button" class="btn btn-danger w-100">Delete</button>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-12">
+                                <button @onclick="() => OnConfirmationChange(false)" type="button" class="btn btn-primary w-100" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

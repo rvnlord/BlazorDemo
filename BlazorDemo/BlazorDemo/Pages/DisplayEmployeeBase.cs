@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BlazorDemo.Models;
 using BlazorDemo.Services;
+using CommonLibrary.Components;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorDemo.Pages
@@ -13,6 +14,8 @@ namespace BlazorDemo.Pages
         protected string SelectEmployeeCheckBoxId { get; set; }
 
         protected bool IsEmployeeSelected { get; set; }
+
+        public ConfirmationDialogBase DeleteConfirmation { get; set; }
 
         [Parameter]
         public EventCallback<bool> OnEmployeeSelection { get; set; }
@@ -38,10 +41,18 @@ namespace BlazorDemo.Pages
             await OnEmployeeSelection.InvokeAsync(IsEmployeeSelected);
         }
 
-        protected async Task BtnDelete_ClickAsync()
+        protected void BtnDelete_Click()
         {
-            await EmployeeService.DeleteEmployeeAsync(Employee.Id);
-            await OnEmployeeDeleted.InvokeAsync(Employee.Id);
+            DeleteConfirmation.Show();
+        }
+
+        protected async Task BtnConfirmDelete_ClickAsync(bool isDeleteConfirmed)
+        {
+            if (isDeleteConfirmed)
+            {
+                await EmployeeService.DeleteEmployeeAsync(Employee.Id);
+                await OnEmployeeDeleted.InvokeAsync(Employee.Id);
+            }
         }
     }
 }

@@ -150,6 +150,10 @@ $(document).ready(function () {
             });
         }
     }
+	
+    $(document).on("click", "input.hasDatepicker + svg", function () {
+        $(this).prev().datepicker("show");
+    });
 
     // #endregion
 

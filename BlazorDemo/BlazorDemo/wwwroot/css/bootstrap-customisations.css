@@ -1399,6 +1399,7 @@ table {
     height: 100%;
     margin: 0 !important;
     padding: 0 !important;
+    background: #000000BB;
 }
 
 .modal-dialog {
