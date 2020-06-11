@@ -19,6 +19,7 @@ This solution has been created by following various tutorials and learning feeds
 * Component Communication (Parent-Child, Child-Parent and across unrelated Components)
 * Delete Confirmation Dialog
 * Attribute Splatting
+* Arbitrary Html Attributes
 * `ViewModels` and `AutoMapper`, Force Reloading Components, Tag Helpers, Loading indicator, Custom Supplemental JavaScript Interops, Mobile First Approach
 
 ![1](/Images/2020-05-24_181137.png?raw=true)

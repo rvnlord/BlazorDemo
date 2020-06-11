@@ -1,21 +1,37 @@
 ﻿<div class="row">
     <div class="col-lg-4 col-md-6 col-12">
-        <input id="firstName" class="form-control" @attributes="@InputAttributes" value="@Value" />
+        <input id="firstName" class="form-control" placeholder="Child Component Placeholder" @attributes="@_attrs" value="@Value" />
     </div>
 </div>
 
 @code {
-    [Parameter]
-    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>
+    private readonly Dictionary<string, object> _attrs = new Dictionary<string, object>();
+
+    private readonly Dictionary<string, object> _defaultChildAttrs = new Dictionary<string, object>
     {
         { "required", "required" },
-        { "placeholder", "Child Component Placeholder" },
         { "size", "100" },
         { "maxlength", "15" }
     };
 
     [Parameter]
-    public string Value { get; set; } = "Child Value";
+    public Dictionary<string, object> DefaultParentAttrs { get; set; } = new Dictionary<string, object>();
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public string Value { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        foreach (var (key, value) in _defaultChildAttrs)
+            _attrs[key] = value;
+        foreach (var (key, value) in DefaultParentAttrs)
+            _attrs[key] = value;
+        foreach (var (key, value) in AdditionalAttributes)
+            _attrs[key] = value;
+    }
 }
 
 @*<div class="row">
