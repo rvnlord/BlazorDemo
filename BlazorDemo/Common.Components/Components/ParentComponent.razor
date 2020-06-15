@@ -1,6 +1,13 @@
 ﻿@page "/pc"
 
-<ChildComponent placeholder="Parent Component Placeholder" someOtherAttribute="someOtherValue" DefaultParentAttrs="_attributesFromParent" />
+<div class="row">
+    <div class="col-12">
+        <h1 style="@Style">Parent Component</h1>
+    </div>
+    <CascadingValue Value="Style">
+        <ChildComponent placeholder="Parent Component Placeholder" someOtherAttribute="someOtherValue" DefaultParentAttrs="_attributesFromParent" />
+    </CascadingValue>
+</div>
 
 @code {
     private Dictionary<string, object> _attributesFromParent = new Dictionary<string, object>
@@ -10,8 +17,8 @@
         { "maxlength", "5" },
         { "someAttribute", "someValue" }
     };
+
+    [CascadingParameter]
+    public string Style { get; set; } = "color: blue";
+
 }
-
-@*@page "/pc"
-
-<ChildComponent required="required" maxlength="100" size="50" placeholder="Parent Component Placeholder" />*@
