@@ -4,8 +4,12 @@
     <div class="col-12">
         <h1 style="@Style">Parent Component</h1>
     </div>
-    <CascadingValue Value="Style">
-        <ChildComponent placeholder="Parent Component Placeholder" someOtherAttribute="someOtherValue" DefaultParentAttrs="_attributesFromParent" />
+    <CascadingValue Value="Style" Name="ColorStyle">
+    <CascadingValue Value="BorderStyle" Name="BorderStyle">
+    <CascadingValue Value="EmployeeAge">
+        <ChildComponent placeholder="Parent Component Placeholder" someOtherAttribute="someOtherValue" DefaultParentAttrs="_attributesFromParent"/>
+    </CascadingValue>
+    </CascadingValue>
     </CascadingValue>
 </div>
 
@@ -18,7 +22,7 @@
         { "someAttribute", "someValue" }
     };
 
-    [CascadingParameter]
     public string Style { get; set; } = "color: blue";
-
+    public string BorderStyle { get; set; } = "border: 1px solid green";
+    public int EmployeeAge { get; set; } = 25;
 }

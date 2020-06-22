@@ -17,7 +17,7 @@ This solution has been created by following various tutorials and learning feeds
 * `Component Parameters`
 * `Event Handling` and `Event Callbacks`
 * Component Communication:
-  * Parent-Child - Parameters and Cascading Parameters
+  * Parent-Child - `Parameters`, `Cascading Values` and `Cascading Parameters` including Multiple Parameters per Component and examples of passing by Value and by Name
   * Child-Parent - by referencing nested `.razor` component with `@ref` keyword and using such Parameter Object to access it's public values and methods
   * Across Unrelated Components - through shared, dependency injected Context Object (Strategy Design Pattern)
 * Delete Confirmation Dialog
