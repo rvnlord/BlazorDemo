@@ -33,6 +33,13 @@ body {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-bottom: 0;
     line-height: 1.5;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+h4 > small > i {
+    margin-left: 10px;
 }
 
 ol, ul, dl {
@@ -48,6 +55,16 @@ hr {
 
 a {
     color: white;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.justify-content-center > a > p,
+.justify-content-center > a {
+    display: flex;
+    justify-content: center;
+    flex: 0 0 100%;
 }
 
     a:hover, a:active, a:focus {
@@ -57,6 +74,10 @@ a {
 
 p {
     margin-bottom: 0;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
 }
 
 .w-100px {
@@ -144,9 +165,12 @@ label {
 }
 
 .col-form-label {
-    line-height: 1.5rem;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    line-height: 1.5;
+    padding: calc((0.75rem + 2px) / 2) 0;
+}
+
+.col-form-label:not(:first-child) {
+    padding-top: 0;
 }
 
 @media (max-width: 575.98px) {
@@ -219,6 +243,11 @@ label {
     margin-bottom: 20px !important;
 }
 
+.mx-10px {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
 .col-auto {
     flex: 1 1 auto;
 }
@@ -245,9 +274,27 @@ div[class^="col-"].d-none-if-empty.empty,
 }
 
 @media (min-width: 768px) {
+    .mt-md-10px {
+        margin-top: 10px;
+    }
+
+    .my-md-0 {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
     .my-md-10px {
         margin-top: 10px;
         margin-bottom: 10px;
+    }
+
+    .mx-md-10px {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .mt-md-0 {
+        margin-top: 0 !important;
     }
 }
 
@@ -279,7 +326,36 @@ div[class^="col-"].d-none-if-empty.empty,
 }
 
 .empty {
+}
 
+.v-center {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+}
+
+.h-right {
+    position: absolute;
+    right: 0;
+}
+
+.lead {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+mark, .mark {
+    padding: 0.2em;
+    color: white;
+    background-color: rgb(95, 30, 156);
+}
+
+.visible-div {
+    background: rgb(18, 18, 18);
+    padding: 10px;
+    text-align: center;
 }
 
 /* #endregion */
@@ -339,11 +415,11 @@ div[class^="col-"].d-none-if-empty.empty,
 
 .navbar {
     background: linear-gradient(to bottom, #303030, #000000);
-    box-shadow: 0 0 6px 2px #010101;
+    box-shadow: 0 0 6px 2px #000000;
     color: white;
     border-bottom: none !important;
     padding: 10px !important;
-    height: 60px;
+    min-height: 60px;
     z-index: 20;
 }
 
@@ -466,6 +542,10 @@ div[class^="col-"].d-none-if-empty.empty,
 
 /* #region BADGE */
 
+.badge {
+    margin-left: 10px;
+}
+
 .badge-primary {
     background: #00008B;
     color: white;
@@ -526,7 +606,10 @@ div[class^="col-"].d-none-if-empty.empty,
     margin-left: -1px;
 }
 
-.form-control[disabled] + .input-group-append .input-group-text {
+.form-control[disabled] + .input-group-append .input-group-text,
+.form-control.disabled + .input-group-append .input-group-text,
+.form-control[readonly] + .input-group-append .input-group-text,
+.form-control.readonly + .input-group-append .input-group-text {
     border-color: #303030;
     color: #404040;
     background: linear-gradient(to bottom, #202020, #000000);
@@ -545,8 +628,6 @@ div[class^="col-"].d-none-if-empty.empty,
     border: 1px solid #404040;
     width: 100%;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    height: calc(1.5em + 10px);
-    padding: 5px 10px;
     font-weight: 400;
     line-height: 1.5rem;
 }
@@ -571,7 +652,9 @@ div[class^="col-"].d-none-if-empty.empty,
         color: #202020;
     }
 
-.form-control:focus:not(div), .form-control-lg:focus:not(div), .form-control-sm:focus:not(div) {
+.form-control:focus:not(div):not(.readonly):not([readonly]),
+.form-control-lg:focus:not(div):not(.readonly):not([readonly]),
+.form-control-sm:focus:not(div):not(.readonly):not([readonly]) {
     box-shadow: 0 0 6px 2px blue;
     color: white;
     border: 1px solid white;
@@ -596,7 +679,6 @@ textarea.form-control {
     vertical-align: top;
 }
 
-
 .form-control.valid {
     background: linear-gradient(to bottom, #006000, #000000);
 }
@@ -605,16 +687,44 @@ textarea.form-control {
     background: linear-gradient(to bottom, #ff2020, #000000);
 }
 
+.form-control.warning {
+    background: linear-gradient(to bottom, rgb(162, 162, 0), #000000);
+}
+
 .validation-message {
-    line-height: 1.5rem;
     color: #ff5050;
     padding: 0;
+    line-height: 1.5;
 }
 
 @media (min-width: 992px) {
     .validation-message {
-        padding: 5px 0;
+        padding: calc((0.75rem + 2px) / 2) 0;
     }
+
+    .validation-message-sm {
+        padding: calc((0.25rem + 2px) / 2) 0;
+    }
+
+    .validation-message-lg {
+        padding: calc((1rem + 2px) / 2) 0;
+    }
+
+    .validation-message:not(:first-child), .validation-message-sm:not(:first-child), .validation-message-lg:not(:first-child) {
+        padding-top: 0;
+    }
+}
+
+.validation-message.valid {
+    color: #009000;
+}
+
+.validation-message.invalid {
+    color: #ff5050;
+}
+
+.validation-message.warning {
+    color: yellow;
 }
 
 ul.validation-errors {
@@ -626,11 +736,9 @@ ul.validation-errors {
     }
 
         ul.validation-errors li.validation-message:first-child {
-          
         }
 
         ul.validation-errors li.validation-message:last-child {
-           
         }
 
 /* #endregion */
@@ -690,9 +798,12 @@ ul.validation-errors {
     padding: 0;
     box-sizing: border-box;
     z-index: 10;
+    transition: box-shadow 0.15s ease-in-out, border 0.15s ease-in-out;
 }
 
-    .my-select-option, .dropdown-menu li {
+    .my-select-option,
+    .dropdown-menu li:not(.dropdown-divider),
+    select[multiple] > option {
         display: block;
         height: calc(1.5em + 10px);
         padding: 5px;
@@ -708,21 +819,85 @@ ul.validation-errors {
             color: white;
             padding: 0;
             border: none;
+            height: auto;
+            outline: none;
         }
 
-            .dropdown-menu li a:hover, .dropdown-menu .nav-item .nav-link:hover, .dropdown-menu li .nav-link.active {
+            .dropdown-menu li a:hover,
+            .dropdown-menu .nav-item .nav-link:hover,
+            .dropdown-menu li .nav-link.active,
+            .dropdown-menu li .nav-link:focus {
                 text-decoration: none;
                 background: transparent;
                 box-shadow: none;
                 border: none;
             }
 
-        .my-select-option:hover, .my-select-option:focus, .my-select-option:active,
-        .dropdown-menu li:hover, .dropdown-menu li:focus, .dropdown-menu li:active, .dropdown-menu li.active {
-            background: linear-gradient(to bottom, #000088, black);
-            box-shadow: 0 0 6px 2px blue;
-            cursor: pointer;
-        }
+    .dropdown-menu li.dropdown-divider {
+        height: 0;
+        margin: 0.5rem 0;
+        overflow: hidden;
+        border-top: 1px solid #404040;
+    }
+
+    .dropdown-menu li.dropdown-header {
+        text-align: center;
+        background: #202020;
+        border-radius: 0;
+        font-weight: 600;
+        border-bottom: 1px solid #404040;
+        border-top: 1px solid #404040;
+        box-sizing: border-box;
+        font-size: 1rem;
+    }
+
+    .dropdown-menu li.dropdown-header:first-child {
+        border-top: none;
+    }
+
+    .dropdown-menu li.dropdown-header:last-child {
+        border-bottom: none;
+    }
+
+    .my-select-option:hover,
+    .my-select-option:focus,
+    .my-select-option:active,
+    .my-select-option:checked,
+    select[multiple] + .my-select-options-container > .my-select-option.selected,
+    .dropdown-menu li:hover:not(.dropdown-divider):not(.dropdown-header):not(.disabled):not(:disabled):not([readonly]):not(.readonly),
+    .dropdown-menu li:focus:not(.dropdown-divider):not(.dropdown-header):not(.disabled):not(:disabled):not([readonly]):not(.readonly),
+    .dropdown-menu li:active:not(.dropdown-divider):not(.dropdown-header):not(.disabled):not(:disabled):not([readonly]):not(.readonly),
+    .dropdown-menu li.active:not(.dropdown-divider):not(.dropdown-header):not(.disabled):not(:disabled):not([readonly]):not(.readonly),
+    select[multiple] > option:hover,
+    select[multiple] > option:focus,
+    select[multiple] > option:active,
+    select[multiple] > option.active,
+    select[multiple] > option:checked,
+    select[multiple] > option.checked,
+    select[multiple] > option:checked:not(:active),
+    select[multiple] > option[selected] {
+        background: linear-gradient(to bottom, #000088, black);
+        box-shadow: 0 0 6px 2px blue;
+        cursor: pointer;
+        color: white !important;
+    }
+
+    .dropdown-menu li:not(.dropdown-divider):not(.dropdown-header).disabled a,
+    .dropdown-menu li:not(.dropdown-divider):not(.dropdown-header):disabled a,
+    .dropdown-menu li:not(.dropdown-divider):not(.dropdown-header).readonly a,
+    .dropdown-menu li:not(.dropdown-divider):not(.dropdown-header)[readonly] a {
+        color: rgb(64, 64, 64);
+        cursor: default;
+    }
+
+    select[multiple] + .my-select-options-container > .my-select-option:hover {
+        background: linear-gradient(to top, #000088, black);
+        box-shadow: none;
+    }
+
+select[multiple] + .my-select-options-container > .my-select-option.selected {
+    box-shadow: none;
+}
 
 .navbar-expand-md .navbar-nav .dropdown-menu li .nav-link {
     padding: 0;
@@ -739,24 +914,39 @@ select {
         cursor: pointer;
     }
 
-    select[disabled] + svg > path, select[disabled] + .input-group-append svg > path {
+    select[disabled] + svg > path, select[disabled] + .input-group-append svg > path, select.readonly + svg > path, select.readonly + .input-group-append svg > path, select[readonly] + svg > path, select[readonly] + .input-group-append svg > path {
         fill: #202020;
     }
 
-    select[disabled], select[disabled].form-control, select[disabled] + .input-group-append:hover, select[disabled] + svg:hover {
+    select[disabled], select[disabled].form-control, select[disabled] + .input-group-append:hover, select[disabled] + svg:hover, select[readonly], select[readonly].form-control, select[readonly] + .input-group-append:hover, select[readonly] + svg:hover, select[disabled], select.readonly, select.readonly.form-control, select.readonly + .input-group-append:hover, select.readonly + svg:hover {
         cursor: default;
         pointer-events: none;
     }
 
-    select.form-control:focus, select.form-control:active {
+    select[multiple]:not([disabled]):not([readonly]):not(.readonly) + .my-select-options-container.focus,
+    select.form-control:not([disabled]):not([readonly]):not(.readonly):focus,
+    select.form-control:not([disabled]):not([readonly]):not(.readonly):active {
         border: 1px solid white;
         box-shadow: 0 0 6px 2px blue;
     }
 
+    select[multiple], select[multiple].form-control {
+        padding: 0;
+        color: white;
+    }
+
+.dropdown:not(.nav-item) {
+    display: flex;
+}
+
+.dropdown > button {
+    display: flex;
+    align-items: center;
+}
+
 /* #endregion */
 
 /* #region DATE PICKER (JQUERY UI) */
-
 .ui-datepicker.ui-widget.ui-widget-content {
     background: linear-gradient(to bottom, #303030, #000000);
     color: white;
@@ -777,8 +967,7 @@ select {
     color: white;
 }
 
-.ui-datepicker td a.ui-state-hover,
-.ui-datepicker td a.ui-state-hover.ui-state-active {
+.ui-datepicker td a.ui-state-hover, .ui-datepicker td a.ui-state-hover.ui-state-active {
     border: 1px solid #404040;
     background: linear-gradient(to top, blue, #000000);
     font-weight: normal;
@@ -792,14 +981,12 @@ select {
     color: white;
 }
 
-.ui-datepicker a.ui-datepicker-next.ui-datepicker-next-hover,
-.ui-datepicker a.ui-datepicker-prev.ui-datepicker-prev-hover {
+.ui-datepicker a.ui-datepicker-next.ui-datepicker-next-hover, .ui-datepicker a.ui-datepicker-prev.ui-datepicker-prev-hover {
     background: linear-gradient(to top, blue, #000000);
     border: 1px solid white;
 }
 
-.ui-datepicker .ui-datepicker-prev:hover,
-.ui-datepicker .ui-datepicker-next:hover {
+.ui-datepicker .ui-datepicker-prev:hover, .ui-datepicker .ui-datepicker-next:hover {
     cursor: pointer;
 }
 
@@ -818,11 +1005,9 @@ select {
     background-repeat: no-repeat;
     background-position: center center;
 }
-
 /* #endregion */
 
 /* #region IMAGE */
-
 .image-thumbnail {
     max-width: 200px;
     max-height: 200px;
@@ -843,7 +1028,6 @@ select {
     object-position: center;
     box-sizing: border-box;
 }
-
 /* #endregion */
 
 /* #region CHECKBOX */
@@ -854,14 +1038,12 @@ input[type='checkbox'], .input-group input[type="checkbox"] {
     z-index: 10;
 }
 
-.input-group-sm input[type="checkbox"],
-.input-group-sm .my-checkmark {
+.input-group-sm input[type="checkbox"], .input-group-sm .my-checkmark {
     width: 1rem;
     height: 1rem;
 }
 
-.input-group-lg input[type="checkbox"],
-.input-group-lg .my-checkmark {
+.input-group-lg input[type="checkbox"], .input-group-lg .my-checkmark {
     width: 1.75rem;
     height: 1.75rem;
 }
@@ -874,7 +1056,6 @@ input[type='checkbox'], .input-group input[type="checkbox"] {
     -ms-user-select: none;
     user-select: none;
 }
-
     /* Hide the browser's default checkbox */
     .my-checkbox-container input {
         position: absolute;
@@ -900,27 +1081,22 @@ input[type='checkbox'], .input-group input[type="checkbox"] {
     box-sizing: border-box;
 }
 
-input[type='checkbox']:hover:not([disabled]) + .my-checkmark,
-.input-group-text input[type="checkbox"]:hover:not([disabled]) + .my-checkmark {
+input[type='checkbox']:hover:not([disabled]):not([readonly]) + .my-checkmark, .input-group-text input[type="checkbox"]:hover:not([disabled]) + .my-checkmark {
     box-shadow: 0 0 6px 2px blue;
 }
-
 /* On mouse-over, add a grey background color */
-.my-checkbox-container:hover input:not([disabled]) ~ .my-checkmark {
+.my-checkbox-container:hover input:not([disabled]):not([readonly]) ~ .my-checkmark {
     background: linear-gradient(to bottom, darkgreen, #000000);
 }
-
 /* When the checkbox is checked, add a background */
 .my-checkbox-container input:checked ~ .my-checkmark {
     background: linear-gradient(to bottom, yellowgreen, #000000);
 }
-
 /* Create the checkmark/indicator (hidden when not checked) */
 .my-checkmark:after {
     content: "";
     display: none;
 }
-
 /* Show the checkmark when checked */
 .my-checkbox-container input:checked ~ .my-checkmark:after {
     display: block;
@@ -953,9 +1129,13 @@ input[type='checkbox']:hover:not([disabled]) + .my-checkmark,
     align-items: center;
 }
 
-.my-checkbox-container input:not([disabled]) ~ .my-checkmark:hover,
-.my-checkbox-container input:not([disabled]) ~ .my-checkbox-label:hover,
-.my-checkbox-container input:not([disabled]):hover {
+.d-inline-flex > .my-checkbox-container > .my-checkbox-label {
+    margin-right: 10px;
+}
+
+.my-checkbox-container input:not([disabled]):not([readonly]) ~ .my-checkmark:hover,
+.my-checkbox-container input:not([disabled]):not([readonly]) ~ .my-checkbox-label:hover,
+.my-checkbox-container input:not([disabled]):not([readonly]):hover {
     cursor: pointer
 }
 
@@ -963,12 +1143,14 @@ input[type='checkbox']:hover:not([disabled]) + .my-checkmark,
     cursor: default;
 }
 
-input[type='checkbox'][disabled] ~ .my-checkmark {
+input[type='checkbox'][disabled] ~ .my-checkmark,
+input[type='checkbox'][readonly] ~ .my-checkmark {
     border-color: #303030;
     background: linear-gradient(to bottom, #202020, #000000);
 }
 
-input[type='checkbox'][disabled] ~ .my-checkbox-label {
+input[type='checkbox'][disabled] ~ .my-checkbox-label,
+input[type='checkbox'][readonly] ~ .my-checkbox-label {
     color: #404040;
 }
 
@@ -983,7 +1165,6 @@ input[type='checkbox'][disabled] ~ .my-checkbox-label {
     -ms-user-select: none;
     user-select: none;
 }
-
     /* Hide the browser's default radio button */
     .my-radiobutton-container input {
         position: absolute;
@@ -992,7 +1173,6 @@ input[type='checkbox'][disabled] ~ .my-checkbox-label {
         height: 0;
         width: 0;
     }
-
 /* Create a custom radio button */
 .my-radiomark {
     height: 1.5rem;
@@ -1006,16 +1186,13 @@ input[type='checkbox'][disabled] ~ .my-checkbox-label {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-input[type='radio']:hover:not([disabled]) + .my-radiomark,
-.input-group-text input[type="radio"]:hover:not([disabled]) + .my-radiomark {
+input[type='radio']:hover:not([disabled]) + .my-radiomark, .input-group-text input[type="radio"]:hover:not([disabled]) + .my-radiomark {
     box-shadow: 0 0 6px 2px blue;
 }
-
 /* On mouse-over, add a grey background color */
 .my-radiobutton-container:hover input ~ .my-radiomark {
     background: linear-gradient(to bottom, darkgreen, #000000);
 }
-
 /* When the radio button is checked, add a blue background */
 .my-radiobutton-container input:checked ~ .my-radiomark {
     background-image: radial-gradient(circle at center, white 20%, transparent 50%), linear-gradient(to bottom, yellowgreen, #000000);
@@ -1033,7 +1210,11 @@ input[type='radio']:hover:not([disabled]) + .my-radiomark,
 }
 
 .my-radiobutton-label {
-    margin: 0 0 0 0.5rem;
+    margin: 0 0 0 10px;
+}
+
+.d-inline-flex > .my-radiobutton-container > .my-radiobutton-label {
+    margin-right: 10px;
 }
 
 input[type='radio'], .input-group input[type="radio"] {
@@ -1042,21 +1223,17 @@ input[type='radio'], .input-group input[type="radio"] {
     z-index: 10;
 }
 
-.input-group-sm input[type="radio"],
-.input-group-sm .my-radiomark {
+.input-group-sm input[type="radio"], .input-group-sm .my-radiomark {
     width: 1rem;
     height: 1rem;
 }
 
-.input-group-lg input[type="radio"],
-.input-group-lg .my-radiomark {
+.input-group-lg input[type="radio"], .input-group-lg .my-radiomark {
     width: 1.75rem;
     height: 1.75rem;
 }
 
-.my-radiobutton-container input:not([disabled]) ~ .my-radiomark:hover,
-.my-radiobutton-container input:not([disabled]) ~ .my-radiobutton-label:hover,
-.my-radiobutton-container input:not([disabled]):hover {
+.my-radiobutton-container input:not([disabled]) ~ .my-radiomark:hover, .my-radiobutton-container input:not([disabled]) ~ .my-radiobutton-label:hover, .my-radiobutton-container input:not([disabled]):hover {
     cursor: pointer
 }
 
@@ -1072,115 +1249,299 @@ input[type='radio'][disabled] ~ .my-radiomark {
 input[type='radio'][disabled] ~ .my-radiobutton-label {
     color: #404040;
 }
-
 /* #endregion */
 
 /* #region BUTTON */
 
 .btn {
-    height: calc(1.5em + 10px);
-    padding: 5px 10px;
     font-weight: 400;
-    line-height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+    min-height: calc(2.25rem + 2px);
+    box-sizing: border-box;
+}
+
+.btn-sm, .btn-group-sm > .btn {
+    min-height: calc(1.8125rem + 2px);
+}
+
+.btn-lg, .btn-group-lg > .btn {
+    min-height: calc(2.875rem + 2px);
 }
 
 .btn-primary {
-    color: #fff;
-    background: linear-gradient(to bottom, #00008B, #000000);
-    border-color: #0000FF;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 0, 128), rgb(0, 0, 0));
+    border-color: rgb(0, 0, 255);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-    .btn-primary:not(:disabled):not(.disabled):focus,
-    .btn-primary:not(:disabled):not(.disabled):active,
-    .btn-primary:not(:disabled):not(.disabled):hover {
-        color: white;
-        box-shadow: 0 0 6px 2px #FFFFFF;
-        background: linear-gradient(to top, #00008B, #000000);
-        border-color: #FFFFFF;
-        color: #FFFFFF;
+    .btn-primary:not(:disabled):not(.disabled):not([readonly]):not(.readonly):focus,
+    .btn-primary:not(:disabled):not(.disabled):not([readonly]):not(.readonly):active,
+    .btn-primary:not(:disabled):not(.disabled):not([readonly]):not(.readonly):hover {
+        color: rgb(255, 255, 255);
+        background: linear-gradient(to top, rgb(0, 0, 128), rgb(0, 0, 0));
+        border-color: rgb(0, 0, 255);
+        box-shadow: 0 0 6px 2px rgb(0, 0, 255);
+    }
+
+    .btn-primary:disabled,
+    .btn-primary:disabled:focus,
+    .btn-primary:disabled:active,
+    .btn-primary:disabled:hover,
+    .btn-primary[readonly],
+    .btn-primary[readonly]:focus,
+    .btn-primary[readonly]:active,
+    .btn-primary[readonly]:hover,
+    .btn-primary.disabled,
+    .btn-primary.disabled:focus,
+    .btn-primary.disabled:active,
+    .btn-primary.disabled:hover,
+    .btn-primary.readonly,
+    .btn-primary.readonly:focus,
+    .btn-primary.readonly:active,
+    .btn-primary.readonly:hover {
+        color: rgb(64, 64, 64);
+        background: linear-gradient(to bottom, rgb(0, 0, 64), rgb(0, 0, 0));
+        border-color: rgb(48, 48, 48);
+        box-shadow: none;
+        cursor: default;
+    }
+
+.btn-light {
+    color: rgb(0, 0, 0);
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(128, 128, 128));
+    border-color: rgb(0, 0, 0);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+    .btn-light:not(:disabled):not(.disabled):not([readonly]):not(.readonly):focus,
+    .btn-light:not(:disabled):not(.disabled):not([readonly]):not(.readonly):active,
+    .btn-light:not(:disabled):not(.disabled):not([readonly]):not(.readonly):hover {
+        color: rgb(0, 0, 0);
+        background: linear-gradient(to top, rgb(255, 255, 255), rgb(128, 128, 128));
+        border-color: rgb(0, 0, 0);
+        box-shadow: 0 0 6px 2px rgb(128, 128, 128);
+    }
+
+    .btn-light:disabled,
+    .btn-light:disabled:focus,
+    .btn-light:disabled:active,
+    .btn-light:disabled:hover,
+    .btn-light[readonly],
+    .btn-light[readonly]:focus,
+    .btn-light[readonly]:active,
+    .btn-light[readonly]:hover,
+    .btn-light.disabled,
+    .btn-light.disabled:focus,
+    .btn-light.disabled:active,
+    .btn-light.disabled:hover,
+    .btn-light.readonly,
+    .btn-light.readonly:focus,
+    .btn-light.readonly:active,
+    .btn-light.readonly:hover {
+        color: rgb(64, 64, 64);
+        background: linear-gradient(to bottom, rgb(128, 128, 128), rgb(64, 64, 64));
+        border-color: rgb(48, 48, 48);
+        box-shadow: none;
+        cursor: default;
     }
 
 .btn-info {
-    color: #fff;
-    background: linear-gradient(to bottom, #0000ed, #000000);
-    border-color: #0000FF;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(2, 124, 128), rgb(0, 0, 0));
+    border-color: rgb(4, 248, 255);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
     .btn-info:not(:disabled):not(.disabled):focus,
     .btn-info:not(:disabled):not(.disabled):active,
     .btn-info:not(:disabled):not(.disabled):hover {
-        color: white;
-        box-shadow: 0 0 6px 2px #FFFFFF;
-        background: linear-gradient(to top, #0000ed, #000000);
-        border-color: #FFFFFF;
-        color: #FFFFFF;
+        color: rgb(255, 255, 255);
+        background: linear-gradient(to top, rgb(2, 124, 128), #000000);
+        border-color: rgb(4, 248, 255);
+        box-shadow: 0 0 6px 2px rgb(4, 248, 255);
+    }
+
+    .btn-info:disabled,
+    .btn-info:disabled:focus,
+    .btn-info:disabled:active,
+    .btn-info:disabled:hover,
+    .btn-info[readonly],
+    .btn-info[readonly]:focus,
+    .btn-info[readonly]:active,
+    .btn-info[readonly]:hover,
+    .btn-info.disabled,
+    .btn-info.disabled:focus,
+    .btn-info.disabled:active,
+    .btn-info.disabled:hover,
+    .btn-info.readonly,
+    .btn-info.readonly:focus,
+    .btn-info.readonly:active,
+    .btn-info.readonly:hover {
+        color: rgb(64, 64, 64);
+        background: linear-gradient(to bottom, rgb(1, 62, 64), rgb(0, 0, 0));
+        border-color: rgb(48, 48, 48);
+        box-shadow: none;
+        cursor: default;
     }
 
 .btn-danger {
-    color: #fff;
-    background: linear-gradient(to bottom, #dc3545, #000000);
-    border-color: #ff45a7;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(128, 53, 69), rgb(0, 0, 0));
+    border-color: rgb(255, 106, 138);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
     .btn-danger:not(:disabled):not(.disabled):focus,
     .btn-danger:not(:disabled):not(.disabled):active,
     .btn-danger:not(:disabled):not(.disabled):hover {
-        color: white;
-        box-shadow: 0 0 6px 2px #FFFFFF;
-        background: linear-gradient(to top, #dc3545, #000000);
-        border-color: #FFFFFF;
+        color: rgb(255, 255, 255);
+        background: linear-gradient(to top, rgb(128, 53, 69), rgb(0, 0, 0));
+        border-color: rgb(255, 106, 138);
+        box-shadow: 0 0 6px 2px rgb(255, 106, 138);
+    }
+
+    .btn-danger:disabled,
+    .btn-danger:disabled:focus,
+    .btn-danger:disabled:active,
+    .btn-danger:disabled:hover,
+    .btn-danger[readonly],
+    .btn-danger[readonly]:focus,
+    .btn-danger[readonly]:active,
+    .btn-danger[readonly]:hover,
+    .btn-danger.disabled,
+    .btn-danger.disabled:focus,
+    .btn-danger.disabled:active,
+    .btn-danger.disabled:hover,
+    .btn-danger.readonly,
+    .btn-danger.readonly:focus,
+    .btn-danger.readonly:active,
+    .btn-danger.readonly:hover {
+        color: rgb(64, 64, 64);
+        background: linear-gradient(to top, rgb(64, 27, 35), rgb(0, 0, 0));
+        border-color: rgb(48, 48, 48);
+        box-shadow: none;
+        cursor: default;
     }
 
 .btn-success {
-    color: #fff;
-    background: linear-gradient(to bottom, #006400, #000000);
-    border-color: #ff45a7;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 128, 0), rgb(0, 0, 0));
+    border-color: rgb(0, 255, 0);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
     .btn-success:not(:disabled):not(.disabled):focus,
     .btn-success:not(:disabled):not(.disabled):active,
     .btn-success:not(:disabled):not(.disabled):hover {
-        color: white;
-        box-shadow: 0 0 6px 2px #FFFFFF;
-        background: linear-gradient(to top, #006400, #000000);
-        border-color: #FFFFFF;
+        color: rgb(255, 255, 255);
+        background: linear-gradient(to top, rgb(0, 128, 0), rgb(0, 0, 0));
+        border-color: rgb(0, 255, 0);
+        box-shadow: 0 0 6px 2px rgb(0, 255, 0);
+    }
+
+    .btn-success:disabled,
+    .btn-success:disabled:focus,
+    .btn-success:disabled:active,
+    .btn-success:disabled:hover,
+    .btn-success[readonly],
+    .btn-success[readonly]:focus,
+    .btn-success[readonly]:active,
+    .btn-success[readonly]:hover,
+    .btn-success.disabled,
+    .btn-success.disabled:focus,
+    .btn-success.disabled:active,
+    .btn-success.disabled:hover,
+    .btn-success.readonly,
+    .btn-success.readonly:focus,
+    .btn-success.readonly:active,
+    .btn-success.readonly:hover {
+        color: rgb(64, 64, 64);
+        background: linear-gradient(to top, rgb(0, 64, 0), rgb(0, 0, 0));
+        border-color: rgb(48, 48, 48);
+        box-shadow: none;
+        cursor: default;
     }
 
 .btn-warning {
-    color: white;
-    background: linear-gradient(to bottom, #BBBB00, #000000);
-    border-color: #ff45a7;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 128, 128), rgb(0, 0, 0));
+    border-color: rgb(0, 255, 255);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
     .btn-warning:not(:disabled):not(.disabled):focus,
     .btn-warning:not(:disabled):not(.disabled):active,
     .btn-warning:not(:disabled):not(.disabled):hover {
-        color: white;
-        box-shadow: 0 0 6px 2px #FFFFFF;
-        background: linear-gradient(to top, #BBBB00, #000000);
-        border-color: #FFFFFF;
+        color: rgb(255, 255, 255);
+        background: linear-gradient(to top, rgb(0, 128, 128), rgb(0, 0, 0));
+        border-color: rgb(0, 255, 255);
+        box-shadow: 0 0 6px 2px rgb(0, 255, 255);
     }
 
-
+    .btn-warning:disabled,
+    .btn-warning:disabled:focus,
+    .btn-warning:disabled:active,
+    .btn-warning:disabled:hover,
+    .btn-warning[readonly],
+    .btn-warning[readonly]:focus,
+    .btn-warning[readonly]:active,
+    .btn-warning[readonly]:hover,
+    .btn-warning.disabled,
+    .btn-warning.disabled:focus,
+    .btn-warning.disabled:active,
+    .btn-warning.disabled:hover,
+    .btn-warning.readonly,
+    .btn-warning.readonly:focus,
+    .btn-warning.readonly:active,
+    .btn-warning.readonly:hover {
+        color: rgb(64, 64, 64);
+        background: linear-gradient(to top, rgb(0, 64, 64), rgb(0, 0, 0));
+        border-color: rgb(48, 48, 48);
+        box-shadow: none;
+        cursor: default;
+    }
 
 .btn-input {
-    color: white;
-    background: linear-gradient(to bottom, #303030, #000000);
-    border: 1px solid #404040;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(48, 48, 48), rgb(0, 0, 0));
+    border-color: rgb(64, 64, 64);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
     .btn-input:not(:disabled):not(.disabled):focus,
     .btn-input:not(:disabled):not(.disabled):active,
     .btn-input:not(:disabled):not(.disabled):hover {
-        color: white;
-        box-shadow: 0 0 6px 2px #FFFFFF;
-        background: linear-gradient(to top, #303030, #000000);
-        border-color: #FFFFFF;
+        color: rgb(255, 255, 255);
+        background: linear-gradient(to top, rgb(48, 48, 48), rgb(0, 0, 0));
+        border-color: rgb(96, 96, 96);
+        box-shadow: 0 0 6px 2px rgb(96, 96, 96);
+    }
+
+    .btn-input:disabled,
+    .btn-input:disabled:focus,
+    .btn-input:disabled:active,
+    .btn-input:disabled:hover,
+    .btn-input[readonly],
+    .btn-input[readonly]:focus,
+    .btn-input[readonly]:active,
+    .btn-input[readonly]:hover,
+    .btn-input.disabled,
+    .btn-input.disabled:focus,
+    .btn-input.disabled:active,
+    .btn-input.disabled:hover,
+    .btn-input.readonly,
+    .btn-input.readonly:focus,
+    .btn-input.readonly:active,
+    .btn-input.readonly:hover {
+        color: rgb(64, 64, 64);
+        background: linear-gradient(to top, rgb(24, 24, 24), rgb(0, 0, 0));
+        border-color: rgb(48, 48, 48);
+        box-shadow: none;
+        cursor: default;
     }
 
 button:focus {
@@ -1197,10 +1558,43 @@ button:focus {
         opacity: 1;
     }
 
+.btn:disabled:hover {
+    cursor: default;
+}
+
+.btn-group-lg svg.svg-inline--fa, .btn-lg svg.svg-inline--fa {
+    width: 1.09375em;
+    height: 1.25em;
+}
+
+.btn-group-sm svg.svg-inline--fa, .btn-sm svg.svg-inline--fa {
+    width: 0.765625em;
+    height: 0.875em;
+}
+
+.btn-group > .dropdown {
+    display: flex;
+    align-items: stretch;
+}
+
+    .btn-group > .dropdown > .btn {
+        display: flex;
+    }
+
+    .btn-group > .dropdown > .btn,
+    .btn-group > .dropdown > .input-group-text {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+.btn-group .dropdown + .btn,
+.btn-group .btn + .dropdown {
+    margin-left: -1px;
+}
+
 /* #endregion */
 
 /* #region ALERT */
-
 .alert {
     padding: 10px 20px;
     margin-bottom: 0;
@@ -1226,7 +1620,6 @@ button:focus {
     border: 1px solid #404040;
     box-shadow: 0 0 6px 2px #00AA00;
 }
-
 /* #endregion */
 
 /* #region TABLE */
@@ -1239,6 +1632,7 @@ button:focus {
     color: white;
     line-height: 1.5rem;
     margin-bottom: 0;
+    border-radius: 0.25rem;
 }
 
     .my-table th, .table th {
@@ -1306,6 +1700,48 @@ table {
     border-spacing: 0;
 }
 
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover.active td,
+.table-hover tbody tr:hover.info td,
+.table-hover tbody tr:hover.success td,
+.table-hover tbody tr:hover.warning td,
+.table-hover tbody tr:hover.danger td {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to top, rgb(0, 0, 128), rgb(0, 0, 0));
+    cursor: pointer;
+}
+
+.table-hover thead th:hover {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to top, rgb(0, 0, 128), rgb(0, 0, 0));
+    cursor: pointer;
+}
+
+.table tbody tr.active td {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 0, 92), rgb(0, 0, 0));
+}
+
+.table tbody tr.info td {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(2, 124, 128), rgb(0, 0, 0));
+}
+
+.table tbody tr.success td {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 128, 0), rgb(0, 0, 0));
+}
+
+.table tbody tr.warning td {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 128, 128), rgb(0, 0, 0));
+}
+
+.table tbody tr.danger td {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(128, 53, 69), rgb(0, 0, 0));
+}
+
 /* #endregion */
 
 /* #region BREADCRUMBS */
@@ -1314,6 +1750,12 @@ table {
     margin-bottom: 0;
     background: linear-gradient(to bottom, #202020, #000000);
     box-shadow: 0 0 6px 2px white;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .breadcrumb-item.active {
@@ -1325,7 +1767,6 @@ table {
     color: white;
     content: ">";
 }
-
 /* #endregion */
 
 /* #region PAGINATION */
@@ -1369,7 +1810,6 @@ table {
     border-color: #404040;
     color: #303030;
 }
-
 /* #endregion */
 
 /* #region PROGRESS BAR */
@@ -1379,7 +1819,6 @@ table {
     height: calc(1.5rem + 10px);
     font-size: 18px;
 }
-
 /* #endregion */
 
 /* #region JUMBOTRON */
@@ -1389,7 +1828,6 @@ table {
     box-shadow: 0 0 6px 2px black;
     margin-bottom: 0;
 }
-
 /* #endregion */
 
 /* #region MODAL */
@@ -1454,7 +1892,6 @@ table {
     overflow-y: scroll;
     padding-right: 0 !important;
 }
-
 /* #endregion */
 
 /* #region TOOLTIP */
@@ -1479,7 +1916,6 @@ table {
 .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
     border-right-color: white !important;
 }
-
 /* #endregion */
 
 /* #region POPOVER */
@@ -1517,7 +1953,6 @@ table {
 .bs-popover-auto[x-placement^=right] .arrow::before, .bs-popover-right .arrow::before {
     border-right-color: white !important;
 }
-
 /* #endregion */
 
 /* #region CAROUSEL */
@@ -1576,6 +2011,198 @@ table {
         height: auto;
     }
 
+.carousel-caption {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+    .carousel-caption > * {
+        justify-content: center;
+        text-align: center;
+        flex: 0 0 100%;
+    }
+
 /* #endregion */
 
+/* #region CODE */
 
+code {
+    font-size: 87.5%;
+    color: rgb(180, 180, 180);
+    word-wrap: break-word;
+    border: 1px solid rgb(48, 48, 48);
+    background: rgb(18, 18, 18);
+}
+
+pre {
+    font-size: 87.5%;
+    color: rgb(180, 180, 180);
+    border: 1px solid rgb(48, 48, 48);
+    background: rgb(18, 18, 18);
+    padding: 10px;
+    border-radius: 0.25rem;
+    width: 100%;
+    margin: 0;
+}
+
+var {
+    font-size: 87.5%;
+    color: rgb(180, 180, 180);
+    word-wrap: break-word;
+    border: 1px solid rgb(48, 48, 48);
+    background: rgb(18, 18, 18);
+    font-style: italic;
+}
+
+samp {
+    color: rgb(180, 180, 180);
+    word-wrap: break-word;
+    background: rgb(18, 18, 18);
+}
+
+kbd {
+    color: rgb(180, 180, 180);
+    word-wrap: break-word;
+    background: rgb(18, 18, 18);
+}
+
+/* #endregion */
+
+/* #region LIST GROUP */
+
+.list-group {
+    background: linear-gradient(to bottom, #303030, #000000);
+    box-shadow: none;
+    color: white;
+    border: 1px solid #404040;
+    border-radius: 0.25rem;
+}
+
+.list-group-item {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #404040;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+
+.list-group-item .badge {
+    margin-left: auto;
+}
+
+    a.list-group-item:hover:not(.disabled) {
+        background: linear-gradient(to bottom, #000088, black);
+        box-shadow: 0 0 6px 2px blue;
+        cursor: pointer;
+        color: white !important;
+    }
+
+.list-group-item.disabled {
+    color: rgb(64, 64, 64);
+    background: transparent;
+}
+
+.list-group-item.active {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 0, 128), rgb(0, 0, 0));
+    border-bottom: 1px solid #404040;
+}
+
+.list-group-item.info {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(2, 124, 128), rgb(0, 0, 0));
+}
+
+.list-group-item.success {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 128, 0), rgb(0, 0, 0));
+}
+
+.list-group-item.warning {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(0, 128, 128), rgb(0, 0, 0));
+}
+
+.list-group-item.danger {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, rgb(128, 53, 69), rgb(0, 0, 0));
+}
+
+.list-group-item-heading {
+    text-align: center;
+    background: #202020;
+    border-radius: 0;
+    font-weight: 600;
+    border-bottom: 1px solid #404040;
+    border-top: 1px solid #404040;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    width: 100%;
+    padding: 5px;
+}
+
+.list-group-item-text {
+}
+
+/* #endregion */
+
+/* #region LIST */
+
+.blockquote {
+    margin-bottom: 0;
+}
+
+.list-inline {
+    display: inline-flex;
+}
+
+.list-inline > li {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.list-inline > li:first-child {
+    margin-left: 0;
+}
+
+.list-inline > li:last-child {
+    margin-right: 0;
+}
+
+.list {
+    margin-left: 20px;
+}
+
+.dl-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .dl-horizontal dt {
+        flex: 1 1 30%;
+        text-align: right;
+    }
+
+    .dl-horizontal dd {
+        flex: 1 1 calc(70% - 10px);
+        margin-left: 10px;
+    }
+
+dd {
+    margin-bottom: 10px;
+}
+
+dd:last-child {
+    margin-bottom: 0;
+}
+
+/* #endregion */

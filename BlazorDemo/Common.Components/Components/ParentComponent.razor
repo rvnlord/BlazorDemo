@@ -2,12 +2,17 @@
 
 <div class="row">
     <div class="col-12">
-        <h1 style="@Style">Parent Component</h1>
+        <button class="btn btn-primary mb-10px" @onclick="IncrementCounter">
+            Increment Counter
+        </button>
+        <h1 style="@Style">Parent Component, Counter: @Counter</h1>
     </div>
-    <CascadingValue Value="Style" Name="ColorStyle">
-    <CascadingValue Value="BorderStyle" Name="BorderStyle">
-    <CascadingValue Value="EmployeeAge">
-        <ChildComponent placeholder="Parent Component Placeholder" someOtherAttribute="someOtherValue" DefaultParentAttrs="_attributesFromParent"/>
+    <CascadingValue Value="Style" Name="ColorStyle" IsFixed="true">
+    <CascadingValue Value="BorderStyle" Name="BorderStyle" IsFixed="true">
+    <CascadingValue Value="EmployeeAge" IsFixed="false">
+    <CascadingValue Value="@Counter" Name="Counter" IsFixed="false">
+        <ChildComponent placeholder="Parent Component Placeholder" someOtherAttribute="someOtherValue" DefaultParentAttrs="_attributesFromParent" />
+    </CascadingValue>
     </CascadingValue>
     </CascadingValue>
     </CascadingValue>
@@ -25,4 +30,7 @@
     public string Style { get; set; } = "color: blue";
     public string BorderStyle { get; set; } = "border: 1px solid green";
     public int EmployeeAge { get; set; } = 25;
+    public int Counter { get; set; }
+
+    private void IncrementCounter() => Counter++;
 }

@@ -1,5 +1,5 @@
 ﻿<div class="col-12">
-    <h1 style="@ElementStyle; @H1Border">Child Component. Employee Age = @EmployeeAge</h1>
+    <h1 style="@ElementStyle; @H1Border">Child Component. Employee Age = @EmployeeAge, Counter: @Counter</h1>
 </div>
 <div class="col-lg-4 col-md-6 col-12">
     <input id="firstName" class="form-control" placeholder="Child Component Placeholder" @attributes="@_attrs" value="@Value"/>
@@ -34,6 +34,9 @@
     [CascadingParameter]
     public int EmployeeAge { get; set; }
 
+    [CascadingParameter(Name = "Counter")]
+    public int Counter { get; set; }
+
     protected override void OnParametersSet()
     {
         foreach (var (key, value) in _defaultChildAttrs)
@@ -44,23 +47,3 @@
             _attrs[key] = value;
     }
 }
-
-@*<div class="row">
-    <div class="col-lg-4 col-md-6 col-12">
-        <input id="firstName" class="form-control" required="@Required" maxlength="@Maxlength" size="@Size" placeholder="@Placeholder" />
-    </div>
-</div>
-
-@code {
-    [Parameter]
-    public string Required { get; set; } = "required";
-
-    [Parameter]
-    public string Maxlength { get; set; } = "15";
-
-    [Parameter]
-    public string Size { get; set; } = "25";
-
-    [Parameter]
-    public string Placeholder { get; set; } = "Child Component Placeholder";
-}*@

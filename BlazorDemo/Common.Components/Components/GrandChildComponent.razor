@@ -1,5 +1,5 @@
 ﻿<div class="col-12">
-    <h1 style="@ElementStyle; @H1Border">GrandChild Component. Employee Age = @EmployeeAge</h1>
+    <h1 style="@ElementStyle; @H1Border">GrandChild Component. Employee Age = @EmployeeAge, Counter: @Counter</h1>
 </div>
 
 @code {
@@ -11,4 +11,7 @@
 
     [CascadingParameter]
     public int EmployeeAge { get; set; }
+
+    [CascadingParameter(Name = "Counter")]
+    public int Counter { get; set; }
 }

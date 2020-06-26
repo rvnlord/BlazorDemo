@@ -14,3 +14,7 @@
         $editNavLink.removeClass("active");
     }
 }
+
+window.blazor_EditEmployee_Reinitialized = () => {
+    $("input, select").filter(".valid").removeClass("valid");
+}

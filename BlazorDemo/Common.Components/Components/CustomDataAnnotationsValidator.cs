@@ -32,9 +32,6 @@ namespace CommonLibrary.Components
 
         private void ValidateField(FieldIdentifier fieldIdentifier)
         {
-            static ComparePropertyUnlessOtherIsNull getCompareAttrOrNUll(ICustomAttributeProvider pi)
-                => pi.GetCustomAttributes(true).SingleOrDefault(a => a is ComparePropertyUnlessOtherIsNull) as ComparePropertyUnlessOtherIsNull;
-
             var model = fieldIdentifier.Model;
             var allProperties = model.GetType().GetProperties();
             var previousValidationMessages = allProperties.ToDictionary(p => p.Name, p => CurrentEditContext.GetValidationMessages(new FieldIdentifier(model, p.Name)).ToArray());
@@ -46,7 +43,7 @@ namespace CommonLibrary.Components
                 var vrs = new List<ValidationResult>();
                 var vc = new ValidationContext(model) { MemberName = prop.Name };
                 var fi = new FieldIdentifier(model, prop.Name);
-                var compareAttr = getCompareAttrOrNUll(prop);
+                var compareAttr = GetCompareAttrOrNUll(prop);
 
                 if (prop.Name == fieldIdentifier.FieldName) // current
                 {
@@ -91,5 +88,8 @@ namespace CommonLibrary.Components
 
             CurrentEditContext.NotifyValidationStateChanged();
         }
+
+        private static ComparePropertyUnlessOtherIsNull GetCompareAttrOrNUll(ICustomAttributeProvider pi)
+            => pi.GetCustomAttributes(true).SingleOrDefault(a => a is ComparePropertyUnlessOtherIsNull) as ComparePropertyUnlessOtherIsNull;
     }
 }

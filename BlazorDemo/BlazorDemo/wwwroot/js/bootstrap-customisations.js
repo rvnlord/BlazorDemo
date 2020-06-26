@@ -72,6 +72,8 @@ $(document).ready(function () {
         createDdlArrowIfRequired();
         setEmptyClassForEmptyElements();
         makeDataPickers();
+        processValidationicons();
+        fixSelectMultiples();
 
         changingDomInProgress = false;
     }
@@ -89,21 +91,50 @@ $(document).ready(function () {
 
     // #endregion
 
-    // #region BOOTSTRAP BUTTON
+    // #region LINKS
 
-    $(document).on("mouseenter", ".btn", e => {
-        var $btn = $(e.target).is(".btn") ? $(e.target) : $(e.target).closest(".btn");
-        var $appendGroup = $btn.closest(".input-group-append, .input-group-prepend");
-        if ($appendGroup[0]) {
-            const $otherBtns = $.makeArray($(".btn").not($btn)).map(s => $(s));
-            const zIndex = Math.min.apply(null, $otherBtns.map($b => parseInt($b.css("z-index"))).filter(v => !Number.isNaN(v)));
+    $(document).on("click", "a", e => {
 
-            for (let $oBtn of $otherBtns) {
-                $oBtn.css("z-index", zIndex);
+        if ($(e.target).closest(":disabled, .disabled, [readonly], .readonly").length > 0) {
+            e.preventDefault();
+        }
+
+    });
+
+    // #endregion
+
+    // #region BOOTSTRAP GROUPS
+
+    $(document).on("mouseenter", "button, .btn, input, select", e => {
+        e.stopPropagation();
+        var $hoveredEl = $(e.target).closest("button, .btn, input, select").first(); // span or other element inside can trigger it
+        var $groups = $hoveredEl.parents(".input-group, .input-group-append, .input-group-prepend, .btn-group").toArray().map(el => $(el));
+
+        $("button, .btn, input, select").css("z-index", 0);
+        const zIndices = $("button, .btn, input, select").toArray().map(el => $(el)).map($el => parseInt($el.css("z-index"))).filter(v => !Number.isNaN(v));
+        const zIndex = zIndices.length === 0 ? 0 : Math.max(...zIndices);
+
+        for (let $group of $groups) {
+            const $allGroupElements = $group.children().toArray().map(el => $(el));
+            const $currentGroupEl = $allGroupElements.filter($el => $el.is($hoveredEl) || $el.find("button, input, select").filter($hoveredEl).length > 0)[0];
+            const $otherGroupElements = $allGroupElements.filter($el => !$el.is($currentGroupEl));
+           
+            for (let $el of $otherGroupElements) {
+                $el.css("z-index", zIndex);
             }
 
-            $btn.css("z-index", zIndex + 1);
+            $currentGroupEl.css("z-index", zIndex + 1);
         }
+
+        $(".dropdown.show, .my-select-options-container").parents(".input-group, .input-group-append, .input-group-prepend, .btn-group").css("z-index", zIndex + 2);
+    });
+
+    // #endregion
+
+    // #region BOOTSTRAP CHECKBOX
+
+    $(document).on("click", "input[type='checkbox'][readonly]", function(e) {
+        e.preventDefault();
     });
 
     // #endregion
@@ -114,6 +145,27 @@ $(document).ready(function () {
         setEmptyClassForEmptyElements();
     });
 
+    window.processValidationicons = () => {
+        for (let $validationIcon of $.makeArray($("svg.validation-icon")).map(i => $(i))) {
+            if ($validationIcon.attr("position") !== "absolute") {
+                const $input = $validationIcon.prev("input");
+                const right = `${parseFloat($input.css("padding-right"))}px`;
+                const top = `${$input.position().top}px`;
+                const height = `${$input.outerHeight(false)}px`;
+                $validationIcon.css({
+                    "position": "absolute",
+                    "right": right,
+                    "top": top,
+                    "height": height
+                });
+                $input.css({
+                    "border-top-right-radius": "0.25rem",
+                    "border-bottom-right-radius": "0.25rem"
+                });
+            }
+        }
+    }
+
     // #endregion
 
     // #region BOOTSTRAP DATE PICKER
@@ -123,7 +175,7 @@ $(document).ready(function () {
         for (let $dp of $dps) {
             $dp.css("display", "none");
             const val = $dp.val().split("-").reverse().join("-");
-            const $tdp = $(`<input class='${$dp.attr("class")}' type='text' value='${val}' />`);
+            const $tdp = $(`<input class='${$dp.attr("class")}' type='text' value='${val}' placeholder='${$dp.attr("placeholder")}' />`);
             $tdp.insertAfter($dp);
             $tdp.datepicker({
                 dateFormat: "dd-mm-yy"
@@ -160,7 +212,7 @@ $(document).ready(function () {
     // #region BOOTSTRAP SELECT CONTROL
 
     window.createDdlArrowIfRequired = () => {
-        for (let $select of $.makeArray($("select")).map(s => $(s))) {
+        for (let $select of $.makeArray($("select:not([multiple])")).map(s => $(s))) {
             if (!$select.next(".input-group-append")[0] && !$select.next(".my-ddl-icon")[0]) {
                 const right = `${parseFloat($select.parent().css("padding-right")) + parseFloat($select.css("padding-right"))}px`;
                 const top = `${$select.position().top}px`;
@@ -173,7 +225,7 @@ $(document).ready(function () {
 
     createDdlArrowIfRequired();
 
-    $(document).on("mousedown", "select:not([disabled]), select:not([disabled]) + .input-group-append, select:not([disabled]) + svg", e => {
+    $(document).on("mousedown", "select:not([disabled]):not(.readonly):not([readonly]):not([multiple]), select:not([disabled]):not(.readonly):not([readonly]):not([multiple]) + .input-group-append, select:not([disabled]):not(.readonly):not([readonly]):not([multiple]) + svg", e => {
         e.preventDefault();
         if (e.which !== 1) {
             return false;
@@ -206,7 +258,7 @@ $(document).ready(function () {
             $ulOptionsContainer = $(`<ul class='my-select-options-container' guid='${guid}'></ul>`);
             const $options = $select.children("option").toArray().map(el => $(el)).filter($el => $el.text().toLowerCase() !== "none");
 
-            const borderRadius = Math.max(...($inputGroup ? $inputGroup.find("span.input-group-text") : $select).css("border-radius").split(" ").map(r => parseFloat(r))) + "px";
+            const borderRadius = Math.max(...($inputGroup ? $inputGroup.find(".fa-chevron-down").parents("button").first() : $select).css("border-radius").split(" ").map(r => parseFloat(r))) + "px";
 
             for (let $option of $options) {
                 const $liOption = $(`<li class='my-select-option' value='${$option.val()}'>${$option.text()}</li>`);
@@ -246,7 +298,7 @@ $(document).ready(function () {
             }
         }
 
-        $(".my-select-options-container").not($ulOptionsContainer).stop(true, true).animate({
+        $(".my-select-options-container").not($ulOptionsContainer).not("select[multiple] + ul.my-select-options-container").stop(true, true).animate({
             height: ["hide", "swing"],
             opacity: "hide"
         }, 250, "linear", function () {
@@ -269,6 +321,9 @@ $(document).ready(function () {
         for (let $optionContainer of $selectOptionContainers) {
             const $select = $optionContainer.parent().children("select").toArray().map(el => $(el))
                 .filter($el => $el.attr("guid") === $optionContainer.attr("guid"))[0];
+            if ($select.is("select[multiple]")) {
+                continue;
+            }
             const $inputGroup = $select.closest("div.input-group-sm, div.input-group-lg, div.input-group")[0] ? $select.closest("div.input-group-sm, div.input-group-lg, div.input-group") : null;
             $optionContainer.css({
                 "width": ($inputGroup || $select).outerWidth(false) + "px",
@@ -289,6 +344,9 @@ $(document).ready(function () {
         const $ulOptionsContainer = $option.parent();
         const $select = $ulOptionsContainer.parent().children("select").toArray().map(el => $(el))
             .filter($el => $el.attr("guid") === $ulOptionsContainer.attr("guid"))[0];
+        if ($select.is("select[multiple]")) {
+            return false;
+        }
         const $selectOptions = $select.children("option").toArray().map(el => $(el));
 
         for (let $selectOption of $selectOptions) {
@@ -310,6 +368,94 @@ $(document).ready(function () {
         ($inputGroup || $select).focus();
 
         e.preventDefault();
+    });
+
+    // #endregion
+
+    // #region BOOTSTRAP SELECT MULTIPLE CONTROL
+
+    window.fixSelectMultiples = () => { // called on dom change
+        const $selectMultiples = $("select[multiple]").toArray().map(s => $(s));
+        for (let $selectMultiple of $selectMultiples) {
+
+            let guid = uuidv4();
+            if (!$selectMultiple.attr("guid")) {
+                $selectMultiple.attr("guid", guid);
+            } else {
+                guid = $selectMultiple.attr("guid");
+            }
+
+            const $selectParent = $selectMultiple.parent();
+
+            let $ulOptionsContainer = $selectParent.children(".my-select-options-container").toArray().map(el => $(el)).filter($el => $el.attr("guid") === $selectMultiple.attr("guid"))[0] || null;
+
+            if (!$ulOptionsContainer) {
+                $ulOptionsContainer = $(`<ul class='my-select-options-container' guid='${guid}'></ul>`);
+                const $options = $selectMultiple.children("option").toArray().map(el => $(el))
+                    .filter($el => $el.text().toLowerCase() !== "none");
+
+                for (let $option of $options) {
+                    const $liOption = $(`<li class='my-select-option' value='${$option.val()}'>${$option.text()}</li>`);
+                    $ulOptionsContainer.append($liOption);
+                }
+
+                $ulOptionsContainer.css({
+                    "position": "relative",
+                    "max-height": $selectMultiple.outerHeight() + "px",
+                    "overflow-y": "scroll",
+                    "overflow-x": "hidden",
+                    "border-radius": $selectMultiple.css("border-radius"),
+                    "-ms-overflow-style": "none", // Internet Explorer 10+
+                    "scrollbar-width": "none" // Firefox
+                });
+                $ulOptionsContainer.addClass("no-scrollbar"); // Chrome
+                $selectParent.attr("position", "relative");
+                $selectParent.append($ulOptionsContainer);
+                $selectMultiple.css("display", "none");
+
+            }
+
+        }
+    }
+
+    fixSelectMultiples();
+
+    $(document).on("click", "select[multiple] + ul.my-select-options-container > li.my-select-option", function(e) {
+        e.preventDefault();
+        if (e.which !== 1) {
+            return;
+        }
+
+        const $option = $(this);
+        const $ulOptionsContainer = $option.parent();
+        const $select = $ulOptionsContainer.parent().children("select").toArray().map(el => $(el))
+            .filter($el => $el.attr("guid") === $ulOptionsContainer.attr("guid"))[0];
+        const $selectOptions = $select.children("option").toArray().map(el => $(el));
+
+        if (!$option.hasClass("selected")) {
+            $option.addClass("selected");
+        } else {
+            $option.removeClass("selected");
+        }
+        
+        for (let $selectOption of $selectOptions) {
+            const selectedVals = $ulOptionsContainer.children("li.my-select-option.selected").toArray().map(o => $(o).attr("value"));
+            if (selectedVals.some(val => val === $selectOption.val())) {
+                $selectOption.attr("selected", "selected");
+            } else {
+                $selectOption.removeAttr("selected");
+            }
+        }
+
+        $ulOptionsContainer.addClass("focus");
+    });
+
+    $("body").click(function(e) {
+        if (!$(e.target).is("select[multiple] + ul.my-select-options-container > li.my-select-option")) {
+            $("select[multiple] + ul.my-select-options-container").removeClass("focus");
+            //e.stopPropagation(); // don't bubble up if sth other than multi ddl was clicked - which means unfocus only once
+        }
+        
     });
 
     // #endregion
@@ -420,6 +566,7 @@ $(document).ready(function () {
 
         $otherShownTabs.hide(); // animated with css, working
         $otherShownTabs.removeClass("show active");
+
         $currTab.show();
         $currTab.addClass("show active");
     });
@@ -441,8 +588,162 @@ $(document).ready(function () {
     // #region BOOTSTRAP ALERT
 
     $(document).on("click", ".alert .close", function () {
-        $(this).parents(".row").first().hide("fade");
+        $(this).parents(".alert").first().hide("fade");
     });
+
+    $(document).on("click", ".btn-alert", function () {
+        const $alert = $(this).next(".alert");
+        $alert.show("fade");
+        setTimeout(function() {
+            $alert.hide("fade");
+        }, 2000);
+    });
+
+    // #endregion
+
+    // #region EXAMPLE COLLAPSIBLE IMAGE GALLERY
+
+    // - OR it can be done with Boostrap alone (take a look at html in 'Index.razor')
+
+    //$("#btnToggle").click(function () {
+    //    $("#divImageGallery").collapse("toggle");
+    //});
+
+    //$("#btnHide").click(function () {
+    //    $("#divImageGallery").collapse("hide");
+    //});
+
+    //$("#btnShow").click(function () {
+    //    $("#divImageGallery").collapse("show");
+    //});
+
+    //$("#divImageGallery").on("show.bs.collapse", function () {
+    //    console.log("Image Gallery is about to be expanded");
+    //});
+
+    //$("#divImageGallery").on("shown.bs.collapse", function () {
+    //    console.log("Image Gallery is expanded");
+    //});
+
+    //$("#divImageGallery").on("hide.bs.collapse", function () {
+    //    console.log("Image Gallery is about to be collapsed");
+    //});
+
+    //$("#divImageGallery").on("hidden.bs.collapse", function () {
+    //    console.log("Image Gallery is collapsed");
+    //});
+
+    // #endregion
+
+    // #region EXAMPLE MODAL
+
+    //$("#btnShowModal").click(function () {
+    //    $("#modalLogin").modal("show");
+    //});
+
+    //$("#btnHideModal").click(function () {
+    //    $("#modalLogin").modal("hide");
+    //});
+
+    //$("#modalLogin").on("show.bs.modal", function () {
+    //    console.log("Modal is about to be displayed");
+    //});
+
+    //$("#modalLogin").on("shown.bs.modal", function () {
+    //    console.log("Modal is displayed");
+    //});
+
+    //$("#modalLogin").on("hide.bs.modal", function () {
+    //    console.log("Modal is about to be hidden");
+    //});
+
+    //$("#modalLogin").on("hidden.bs.modal", function () {
+    //    console.log("Modal is hidden");
+    //});
+
+    // #endregion
+
+    // #region EXAMPLE BOOTSTRAP TOOLTIP
+
+    //$("button:contains('Tooltip Default')[data-toggle='tooltip']").tooltip({
+    //    title: "Tooltip from title option"
+    //});
+
+    //$("button:contains('Tooltip Right')[data-toggle='tooltip']").tooltip({
+    //    title: "<h3>Help</h3><p>Click to submit the page</p>",
+    //    placement: "right",
+    //    animation: true,
+    //    delay: { show: 500, hide: 500 },
+    //    html: true
+    //});
+
+    //$("button:contains('Tooltip Click')[data-toggle='tooltip']").tooltip({
+    //    title: "Tooltip Click",
+    //    trigger: "click"
+    //});
+
+    //$("#txtTooltipManual").tooltip({
+    //    title: "Tooltip manual",
+    //    trigger: "manual",
+    //    placement: "bottom",
+    //    animation: true
+    //});
+
+    //$("#btnInfo").click(function () {
+    //    $("#txtTooltipManual").tooltip("toggle");
+    //});
+
+    // #endregion
+
+    // #region EXAMPLE BOOTSTRAP POPOVER
+
+    //$("[data-toggle='popover']").popover();
+
+    // #endregion
+
+    // #region EXAMPLE BOOTSTRAP SCROLLSPY
+
+    //var activeListGroupItems = $(".list-group-item.active");
+    //$("body").scrollspy({
+    //    target: "",
+    //    offset: 70
+    //});
+    //activeListGroupItems.addClass("active"); 
+
+    //window.addEventListener("scroll", function() {
+    //    activeListGroupItems.addClass("active"); // readd `active` because scrollspy will remove it for some reason
+    //});
+
+    //$(window).on("activate.bs.scrollspy", function () {
+    //    activeListGroupItems.addClass("active"); // readd `active` because scrollspy will remove it for some reason
+    //});
+
+    //$("a[href*='#']:not([href='#'])").click(function(e) {
+    //    e.preventDefault();
+    //    $("html, body").stop(true, true).animate({
+    //        scrollTop: $($(this).attr("href")).offset().top - 69
+    //    }, 250);
+    //});
+
+    // #endregion
+
+    // #region EXAMPLE BOOTSTRAP CAROUSEL
+
+    // OR with 'data-attributes'
+    //$("#imageCarousel").addClass("slide");
+    //$("#imageCarousel").carousel({
+    //    interval: 5000,
+    //    pause: "hover",
+    //    wrap: true
+    //});
+
+    //$("#imageCarousel .carousel-control-prev").click(function() {
+    //     $("#imageCarousel").carousel("prev");
+    //});
+
+    //$("#imageCarousel .carousel-control-next").click(function() {
+    //    $("#imageCarousel").carousel("next");
+    //});
 
     // #endregion
 });

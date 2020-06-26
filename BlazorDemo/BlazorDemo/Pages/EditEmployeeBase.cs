@@ -89,6 +89,7 @@ namespace BlazorDemo.Pages
                 }).ToEditEmployeeVM(Mapper);
             AvailableDepartments = (await DepartmentService.GetDepartmentsAsync()).ToList();
             StateHasChanged();
+            await JsRuntime.InvokeVoidAsync("blazor_EditEmployee_Reinitialized");
         }
 
         private int? GetIdFromLocation()
