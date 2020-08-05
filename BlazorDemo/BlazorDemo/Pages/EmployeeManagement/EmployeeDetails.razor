@@ -1,0 +1,58 @@
+﻿@page "/employeedetails/{id}"
+@page "/employeedetails/"
+@inherits EmployeeDetailsBase
+
+@if (IsAuthorized())
+{
+    @if (Employee == null)
+    {
+        <div class="spinner-container">
+            <div class="spinner"></div>
+        </div>
+    }
+    else
+    {
+        <ConfirmationDialog @ref="DeleteConfirmation" ConfirmationChanged="BtnConfirmDelete_ClickAsync"
+                             ConfirmationMessage=@($"Are you sure you want to delete \"{Employee.FirstName}\"?")>
+        </ConfirmationDialog>
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>@Employee.FirstName @Employee.LastName (x: @Coordinates.X.ToString("0"), y: @Coordinates.Y.ToString("0"))</h3>
+                    </div>
+                    <div class="card-body container">
+                        <div class="row p-5px">
+                            <div @onmousemove="@EmployeePhoto_MouseMove" class="col-12 d-flex justify-content-center">
+                                <img class="card-img-top image-thumbnail" src="@Employee.PhotoPath" asp-append-version="true"/>
+                            </div>
+                            <div class="col-12 d-flex justify-content-center">
+                                <div>
+                                    <h4>Employee ID: @Employee.Id</h4>
+                                    <h4>Email: @Employee.Email</h4>
+                                    <h4>Department: @(Employee.Department?.Name ?? "N/A")</h4>
+                                    <button @onmousedown="@ToggleFooterButton_Click" class="btn btn-primary w-100 mt-10px">@ToggleFooterButtonText</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer container @FooterCssClass">
+                        <div class="row p-5px justify-content-center">
+                            <div class="col-xl-4 col-lg-6 col-12">
+                                <CustomButton Styling="ButtonStyling.Input" ButtonState="_btnBackState" OnClick="BtnBack_Click">Back</CustomButton>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-12">
+                                <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnEditState" OnClick="BtnEdit_Click">Edit</CustomButton>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-12">
+                                <CustomButton Styling="ButtonStyling.Danger" ButtonState="_btnDeleteState" OnClick="BtnDelete_Click">Delete</CustomButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+

@@ -1,0 +1,22 @@
+﻿@inherits CustomButtonBase
+
+@if (ButtonState == ButtonState.Enabled)
+{
+    <button class="btn @_btnClass w-100" type="@ButtonType" @onclick="@(async e => await Button_ClickAsync(e))">
+        @ChildContent
+    </button>
+}
+else if (ButtonState == ButtonState.Disabled)
+{
+    <button class="btn @_btnClass w-100" type="@ButtonType" disabled>
+        @ChildContent
+    </button>
+}
+else if (ButtonState == ButtonState.Loading)
+{
+    <button class="btn @_btnClass w-100" style="padding: 0" type="@ButtonType" disabled>
+        <div class="spinner-container">
+            <div class="spinner-button"></div>
+        </div>
+    </button>
+}

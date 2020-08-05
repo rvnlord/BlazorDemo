@@ -60,6 +60,14 @@ app {
     }
 }
 
+@media (max-width: 1199.98px) {
+    .main > .top-row.navbar.navbar-clear > .nav > .nav-item > .nav-link {
+        max-width: 40px;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+    }
+}
+
 @media (min-width: 768px) {
 
     .main > .top-row {
@@ -75,6 +83,7 @@ app {
 
 .sidebar {
     background-image: linear-gradient(135deg, rgb(0, 0, 87) 0%, black 70%);
+    box-shadow: 0 0 6px 2px #000000;
     z-index: 10;
     position: sticky;
     top: 0;
@@ -84,15 +93,45 @@ app {
         font-size: 1.1rem;
     }
 
+    .sidebar > .top-row.navbar > .nav {
+        display: none;
+    }
+
+    .sidebar > .top-row.navbar > .nav > .nav-item {
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .sidebar > .top-row.navbar > .nav > .nav-item > .nav-link {
+        height: calc(1.5rem + 16px);
+    }
+
 @media (max-width: 768px) {
     app .sidebar .navbar {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 
-    .sidebar .navbar a:first-child {
+    .sidebar .navbar a:first-child:not(.nav-link) {
         margin-left: 10px;
     }
+
+    .sidebar > .top-row.navbar > .nav {
+        display: flex;
+        margin-left: auto;
+        padding: 0;
+    }
+
+    .sidebar > .top-row.navbar > .nav > .nav-item > .nav-link {
+        max-width: 40px;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
+}
+
+.sidebar > .navbar-collapse > nav-flex-column {
+    padding: 5px;
 }
 
 .sidebar .navbar .navbar-toggler svg {
@@ -184,6 +223,25 @@ app {
     justify-content: center;
     margin: 5px;
     display: flex;
+    flex-direction: column;
+}
+
+.spinner-message {
+    margin-top: 10px;
+}
+
+.spinner-button {
+    border: 5px solid #404040;
+    border-top: 5px solid lightblue;
+    border-radius: 50%;
+    height: 26px;
+    width: 26px;
+    animation: spin 700ms linear infinite;
+}
+
+.btn-success .spinner-button {
+    height: 52px;
+    width: 52px;
 }
 
 /* #endregion */

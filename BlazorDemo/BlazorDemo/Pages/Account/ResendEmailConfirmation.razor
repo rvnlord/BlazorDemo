@@ -1,0 +1,43 @@
+﻿@page "/account/resendemailconfirmation/"
+
+@using BlazorDemo.Common.Extensions
+@using BlazorDemo.Common.Models.Account.ViewModels
+@inherits ResendEmailConfirmationBase
+
+<EditForm EditContext="EditContext" OnValidSubmit="@FormResendEmailConfirmation_ValidSubmitAsync">
+    <CustomDataAnnotationsValidator @ref="_validator" />
+    <div class="row">
+        <div class="col-12">
+            <h3>Resend Email Confirmation</h3>
+            <hr class="mt-10px" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+            <label for="inputEmail" class="col-form-label">@($"{ResendEmailConfirmationUserVM.GetDisplayName(nameof(ResendEmailConfirmationUserVM.Email))}:")</label>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+            <InputText @bind-Value="ResendEmailConfirmationUserVM.Email" id="inputEmail" class="form-control" placeholder="@($"{ResendEmailConfirmationUserVM.GetDisplayName(nameof(ResendEmailConfirmationUserVM.Email))}...")" />
+        </div>
+        <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+            <CustomValidationMessage For="@(() => ResendEmailConfirmationUserVM.Email)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-lg-4 col-sm-6 col-12 offset-xl-2 offset-lg-3">
+            <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnResendEmailConfirmationState">Resend Confirmation Email</CustomButton>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-xl-2 offset-lg-3 offset-sm-6 col-xl-3 col-lg-4 col-sm-6 col-12">
+            @if (_btnResendEmailConfirmationState == ButtonState.Enabled)
+            {
+                <a href="@($"/Account/ConfirmEmail?email={ResendEmailConfirmationUserVM?.Email ?? ""}")"></a>
+            }
+            else
+            {
+                <span style="color: #404040">I already have Confirmation Code</span>
+            }
+        </div>
+    </div>
+</EditForm>

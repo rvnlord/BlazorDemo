@@ -15,6 +15,97 @@
     }
 }
 
-window.blazor_EditEmployee_Reinitialized = () => {
+function clearValidation() {
     $("input, select").filter(".valid").removeClass("valid");
+} 
+
+showAlerts = () => {
+    $(".alert:hidden").stop(true, true).fadeIn(250, function() {
+        $(this).css("display", "");
+    });
+}
+
+blazor_EditEmployee_Reinitialized = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Account_Login_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+window.blazor_Account_Login_DisplayAlerts = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Account_Register_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Account_ConfirmEmail_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Account_ForgotPassword_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Account_ResetPassword_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Account_ResendEmailConfirmation_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_MainLayout_RefreshLayout = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Account_Edit_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Admin_EditUser_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Admin_AddUser_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Admin_EditRole_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Admin_AddRole_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Admin_EditClaim_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Admin_AddClaim_AfterRender = () => {
+    clearValidation();
+    showAlerts();
+}
+
+blazor_Employee_EmployeeList_AfterRender = () => {
+    clearValidation();
+    showAlerts();
 }

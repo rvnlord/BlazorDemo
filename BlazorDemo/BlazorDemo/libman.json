@@ -13,6 +13,15 @@
     {
       "library": "jqueryui@1.12.1",
       "destination": "wwwroot/lib/libman/jqueryui/"
+    },
+    {
+      "library": "font-awesome@5.13.1",
+      "destination": "wwwroot/lib/libman/font-awesome/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "cookies-js@1.2.3",
+      "destination": "wwwroot/lib/libman/cookies-js/"
     }
   ]
 }

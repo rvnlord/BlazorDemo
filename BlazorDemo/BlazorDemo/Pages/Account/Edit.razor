@@ -1,0 +1,111 @@
+﻿@page "/account/edit/"
+@using BlazorDemo.Common.Extensions
+@using BlazorDemo.Common.Models.Account.ViewModels
+@inherits EditBase
+
+<AuthorizeView Context="AuthContext">
+    <Authorized>
+        <div>
+            <EditForm EditContext="EditContext" OnValidSubmit="@FormEdit_ValidSubmitAsync">
+                <CustomDataAnnotationsValidator @ref="_validator" />
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Edit</h3>
+                        <hr class="mt-10px" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                        <label for="inputId" class="col-form-label">@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.Id))}:")</label>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                        <InputText disabled @bind-Value="EditUserVMIdString" id="inputId" class="form-control" placeholder="@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.Id))}...")" />
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => EditUserVM.Id)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                        <label for="inputUserName" class="col-form-label">@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.UserName))}:")</label>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                        <InputText @bind-Value="EditUserVM.UserName" id="inputUserName" class="form-control" placeholder="@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.UserName))}...")" />
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => EditUserVM.UserName)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                        <label for="inputEmail" class="col-form-label">@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.Email))}:")</label>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                        <InputText @bind-Value="EditUserVM.Email" id="inputEmail" class="form-control" placeholder="@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.Email))}...")" />
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => EditUserVM.Email)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                        <label for="inputOldPassword" class="col-form-label">@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.OldPassword))}:")</label>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                        @if (EditUserVM?.HasPassword == true)
+                        {
+                            <InputText type="password" @bind-Value="EditUserVM.OldPassword" id="inputOldPassword" class="form-control" placeholder="@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.OldPassword))}...")"/>
+                        }
+                        else
+                        {
+                            <InputText disabled type="password" @bind-Value="EditUserVM.OldPassword" id="inputOldPassword" class="form-control" placeholder="@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.OldPassword))}...")"/>
+                        }
+                       
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => EditUserVM.OldPassword)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                        <label for="inputNewPassword" class="col-form-label">@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.NewPassword))}:")</label>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                        <InputText type="password" @bind-Value="EditUserVM.NewPassword" id="inputNewPassword" class="form-control" placeholder="@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.NewPassword))}...")" />
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => EditUserVM.NewPassword)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                        <label for="inputConfirmNewPassword" class="col-form-label">@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.ConfirmNewPassword))}:")</label>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                        <InputText type="password" @bind-Value="EditUserVM.ConfirmNewPassword" id="inputConfirmNewPassword" class="form-control" placeholder="@($"{EditUserVM.GetDisplayName(nameof(EditUserVM.ConfirmNewPassword))}...")" />
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => EditUserVM.ConfirmNewPassword)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 col-sm-5 col-12 offset-xl-2 offset-lg-3 offset-sm-6">
+                        <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnSaveEditsState">Save Changes</CustomButton>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-xl-2 col-lg-10 offset-lg-3 col-lg-9 offset-sm-6 col-sm-6 col-12">
+                        @if (_btnSaveEditsState == ButtonState.Enabled)
+                        {
+                            <a href="/account/ResendEmailConfirmation">Resend Email Confirmation</a>
+                        }
+                        else
+                        {
+                            <span style="color: #404040">Resend Email Confirmation</span>
+                        }
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </Authorized>
+</AuthorizeView>

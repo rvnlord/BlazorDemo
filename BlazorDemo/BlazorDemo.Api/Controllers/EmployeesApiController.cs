@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BlazorDemo.Api.Models;
-using BlazorDemo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using BlazorDemo.Models.Converters;
-using Newtonsoft.Json;
+using BlazorDemo.Common.Models;
+using Microsoft.AspNetCore.Authorization;
+using BlazorDemo.Common.Converters;
+using BlazorDemo.Common.Models.EmployeeManagement;
+using BlazorDemo.Common.Services.Backend.EmployeeManagement.Interfaces;
 
 namespace BlazorDemo.Api.Controllers
 {
     [Route("api/employees")] // [controller]
     [ApiController]
+    [AllowAnonymous]
     public class EmployeesApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;

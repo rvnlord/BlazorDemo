@@ -1,0 +1,139 @@
+﻿@page "/editemployee/{id}"
+@page "/editemployee/"
+@using BlazorDemo.Common.Extensions
+@using BlazorDemo.Common.Models
+@using BlazorDemo.Common.Models.EmployeeManagement
+@using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute
+@inherits EditEmployeeBase
+
+@if (IsAuthorized())
+{
+    <ConfirmationDialog @ref="DeleteConfirmation" ConfirmationChanged="@BtnConfirmDelete_ClickAsync"
+        ConfirmationMessage=@($"Are you sure you want to delete \"{EditEmployeeVM.FirstName}\"?")>
+    </ConfirmationDialog>
+
+    <div>
+        <EditForm Model="EditEmployeeVM" OnValidSubmit="@EditForm_ValidSubmitAsync">
+            <CustomDataAnnotationsValidator/>
+            <div class="row">
+                <div class="col-12">
+                    <h3>@PageHeaderText</h3>
+                    <hr class="mt-10px"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-none-if-empty">
+                    <ValidationSummary/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputFirstName" class="col-form-label">First Name</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText @bind-Value="EditEmployeeVM.FirstName" id="inputFirstName" class="form-control" placeholder="First Name..."/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => EditEmployeeVM.FirstName)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputLastName" class="col-form-label">Last Name</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText @bind-Value="EditEmployeeVM.LastName" id="inputLastName" class="form-control" placeholder="Last Name..."/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => EditEmployeeVM.LastName)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputEmail" class="col-form-label">@EditEmployeeVM.GetDisplayName(nameof(EditEmployeeVM.Email))</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText @bind-Value="EditEmployeeVM.Email" id="inputEmail" class="form-control" placeholder="@($"{EditEmployeeVM.GetDisplayName(nameof(EditEmployeeVM.Email))}...")"/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => EditEmployeeVM.Email)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputEmail" class="col-form-label">@EditEmployeeVM.GetDisplayName(nameof(EditEmployeeVM.ConfirmEmail))</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText @bind-Value="EditEmployeeVM.ConfirmEmail" id="inputEmail" class="form-control" placeholder="@($"{EditEmployeeVM.GetDisplayName(nameof(EditEmployeeVM.ConfirmEmail))}...")"/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => EditEmployeeVM.ConfirmEmail)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputDepartment" class="col-form-label">Department</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <CustomInputSelect @bind-Value="EditEmployeeVM.DepartmentId" id="inputDepartment" class="form-control" placeholder="Department...">
+                        @foreach (var department in AvailableDepartments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </CustomInputSelect>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => EditEmployeeVM.DepartmentId)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputGender" class="col-form-label">Gender</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <CustomInputSelect @bind-Value="EditEmployeeVM.Gender" id="inputGender" class="form-control" placeholder="Gender...">
+                        @foreach (var gender in Enum.GetValues(typeof(Gender)))
+                        {
+                            <option value="@gender">@gender</option>
+                        }
+                    </CustomInputSelect>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => EditEmployeeVM.Gender)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputDateOfBirth" class="col-form-label">Date of Birth</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputDate @bind-Value="EditEmployeeVM.DateOfBirth" id="inputDateOfBirth" class="form-control" placeholder="Date of Birth..."></InputDate>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => EditEmployeeVM.DateOfBirth)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-1 col-lg-2 col-sm-4 col-12 offset-xl-2 offset-lg-3">
+                    <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnSaveState">Save</CustomButton>
+                </div>
+                @if (EditEmployeeVM.Id > 0)
+                {
+                    <div class="col-xl-1 col-lg-2 col-sm-4 col-12">
+                        <CustomButton ButtonType="ButtonType.Button" Styling="ButtonStyling.Danger" ButtonState="_btnDeleteState" OnClick="@BtnDelete_Click">Delete</CustomButton>
+                    </div>
+                }
+            </div>
+        </EditForm>
+    </div>
+}
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        Routes.Clear();
+        Routes.AddRange(GetType().GetCustomAttributes(typeof(RouteAttribute), true).Select(r => ((RouteAttribute)r).Template).ToArray());
+    }
+}
+

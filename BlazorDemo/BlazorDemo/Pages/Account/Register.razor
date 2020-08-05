@@ -1,0 +1,76 @@
+﻿@page "/account/register/"
+@using BlazorDemo.Common.Extensions
+@inherits RegisterBase
+
+<div>
+    <EditForm EditContext="EditContext" OnValidSubmit="@FormRegister_ValidSubmitAsync">
+        <CustomDataAnnotationsValidator @ref="_validator" />
+        <div class="row">
+            <div class="col-12">
+                <h3>Register</h3>
+                <hr class="mt-10px" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                <label for="inputUserName" class="col-form-label">@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.UserName))}:")</label>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                <InputText @bind-Value="RegisterUserVM.UserName" id="inputUserName" class="form-control" placeholder="@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.UserName))}...")" />
+            </div>
+            <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                <CustomValidationMessage For="@(() => RegisterUserVM.UserName)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                <label for="inputEmail" class="col-form-label">@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.Email))}:")</label>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                <InputText @bind-Value="RegisterUserVM.Email" id="inputEmail" class="form-control" placeholder="@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.Email))}...")" />
+            </div>
+            <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                <CustomValidationMessage For="@(() => RegisterUserVM.Email)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                <label for="inputPassword" class="col-form-label">@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.Password))}:")</label>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                <InputText type="password" @bind-Value="RegisterUserVM.Password" id="inputPassword" class="form-control" placeholder="@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.Password))}...")" />
+            </div>
+            <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                <CustomValidationMessage For="@(() => RegisterUserVM.Password)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                <label for="inputConfirmPassword" class="col-form-label">@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.ConfirmPassword))}:")</label>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                <InputText type="password" @bind-Value="RegisterUserVM.ConfirmPassword" id="inputConfirmPassword" class="form-control" placeholder="@($"{RegisterUserVM.GetDisplayName(nameof(RegisterUserVM.ConfirmPassword))}...")" />
+            </div>
+            <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                <CustomValidationMessage For="@(() => RegisterUserVM.ConfirmPassword)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-1 col-lg-2 col-sm-4 col-12 offset-xl-2 offset-lg-3 offset-sm-6">
+                <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnRegisterState">Register</CustomButton>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-xl-2 col-lg-10 offset-lg-3 col-lg-9 offset-sm-6 col-sm-6 col-12">
+                @if (_btnRegisterState == ButtonState.Enabled)
+                {
+                    <a href="/account/ResendEmailConfirmation">Resend Email Confirmation</a>
+                }
+                else
+                {
+                    <span style="color: #404040">Resend Email Confirmation</span>
+                }
+            </div>
+        </div>
+    </EditForm>
+</div>

@@ -1,11 +1,9 @@
-﻿using System.Threading.Tasks;
-using BlazorDemo.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace BlazorDemo.Shared
 {
     public class NavMenuBase : ComponentBase
     {
+
     }
 }

@@ -1,0 +1,139 @@
+﻿@page "/admin/edituser/{id:guid}"
+@using BlazorDemo.Common.Extensions
+@using BlazorDemo.Common.Models.Account.ViewModels
+@inherits EditUserBase
+
+@if (IsAuthorized())
+{
+    <div>
+        <EditForm EditContext="EditContext" OnValidSubmit="@FormAdminEditUser_ValidSubmitAsync">
+            <CustomDataAnnotationsValidator @ref="_validator"/>
+            <div class="row">
+                <div class="col-12">
+                    <h3>Edit User</h3>
+                    <hr class="mt-10px"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputId" class="col-form-label">@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.Id))}:")</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText disabled @bind-Value="AdminEditUserVMIdString" id="inputId" class="form-control" placeholder="@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.Id))}...")"/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => AdminEditUserVM.Id)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputUserName" class="col-form-label">@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.UserName))}:")</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText @bind-Value="AdminEditUserVM.UserName" id="inputUserName" class="form-control" placeholder="@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.UserName))}...")"/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => AdminEditUserVM.UserName)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputEmail" class="col-form-label">@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.Email))}:")</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText @bind-Value="AdminEditUserVM.Email" id="inputEmail" class="form-control" placeholder="@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.Email))}...")"/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => AdminEditUserVM.Email)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                    <label for="inputPassword" class="col-form-label">@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.Password))}:")</label>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <InputText @bind-Value="AdminEditUserVM.Password" id="inputPassword" class="form-control" placeholder="@($"{AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.Password))}...")"/>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => AdminEditUserVM.Password)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-xl-2 offset-lg-3 offset-sm-6 col-xl-3 col-lg-4 col-sm-6 col-12">
+                    @{ var displayIsConfirmed = AdminEditUserVM.GetDisplayName(nameof(AdminEditUserVM.IsConfirmed)); }
+                    <label class="my-checkbox-container">
+                        <input type="checkbox" id="cbIsConfirmed" @bind="AdminEditUserVM.IsConfirmed"/>
+                        <span class="my-checkmark"></span>
+                        <label class="my-checkbox-label" for="cbIsConfirmed">@displayIsConfirmed</label>
+                    </label>
+                </div>
+                <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                    <CustomValidationMessage For="@(() => AdminEditUserVM.IsConfirmed)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-xl-2 offset-lg-3 col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <h4 class="mb-5px" style="color: blue; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block;">Roles:</h4>
+                    @if (Roles?.Any() != true)
+                    {
+                        <h6 class="ml-10px" style="color: #ff3333; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block;">&lt; No Roles &gt;</h6>
+                    }
+                    else
+                    {
+                        var roles = Roles.OrderBy(r => r.Name).ToList();
+                        for (var i = 0; i < roles.Count; i++)
+                        {
+                            var role = roles[i];
+                            var marginClass = i == roles.Count - 1 ? string.Empty : "mb-10px";
+                            <label class="my-checkbox-container ml-10px @marginClass">
+                                @if (role.In(AdminEditUserVM.Roles))
+                                {
+                                    <input id="cbRole@(i)" checked="checked" type="checkbox" @onchange="@(async () => await CbRole_CheckedAsync(role, false))"/>
+                                }
+                                else
+                                {
+                                    <input id="cbRole@(i)" type="checkbox" @onchange="@(async () => await CbRole_CheckedAsync(role, true))"/>
+                                }
+                                <span class="my-checkmark"></span>
+                                <label for="cbRole@(i)" class="my-checkbox-label" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block;">@role.Name</label>
+                            </label>
+                        }
+                    }
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <h4 class="mb-5px" style="color: green; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block;">Claims:</h4>
+                    @if (Claims?.Any() != true)
+                    {
+                        <h6 class="ml-10px" style="color: #ff3333; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block;">&lt; No Claims &gt;</h6>
+                    }
+                    else
+                    {
+                        var claims = Claims.OrderBy(c => c.Name).ToList();
+                        for (var i = 0; i < claims.Count; i++)
+                        {
+                            var claim = claims[i];
+                            var marginClass = i == claims.Count - 1 ? string.Empty : "mb-10px";
+                            <label class="my-checkbox-container ml-10px @marginClass">
+                                @if (claim.In(AdminEditUserVM.Claims))
+                                {
+                                    <input id="cbClaim@(i)" checked="checked" type="checkbox" @onchange="@(async () => await CbClaim_CheckedAsync(claim, false))" />
+                                }
+                                else
+                                {
+                                    <input id="cbClaim@(i)" type="checkbox" @onchange="@(async () => await CbClaim_CheckedAsync(claim, true))" />
+                                }
+                                <span class="my-checkmark"></span>
+                                <label for="cbClaim@(i)" class="my-checkbox-label" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block;">@claim.Name</label>
+                            </label>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-sm-5 col-12 offset-xl-2 offset-lg-3 offset-sm-6">
+                    <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnSaveUserState">Save User</CustomButton>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+}

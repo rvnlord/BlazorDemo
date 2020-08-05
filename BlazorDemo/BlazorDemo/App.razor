@@ -1,10 +1,28 @@
-<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Prompt).Assembly }">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-    </Found>
-    <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <Prompt PromptType="@PromptType.Error" Message="There is nothing at this address"></Prompt>
-        </LayoutView>
-    </NotFound>
-</Router>
+@using BlazorDemo.Common.Components
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Prompt).Assembly }">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <Prompt PromptType="@PromptType.Error" Message="Access Denied"></Prompt>
+                </NotAuthorized>
+                <Authorizing>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="spinner-container">
+                                <div class="spinner"></div>
+                                <div class="spinner-message">Authorizing...</div>
+                            </div>
+                        </div>
+                    </div>
+                </Authorizing>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <Prompt PromptType="@PromptType.Error" Message="There is nothing at this address"></Prompt>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

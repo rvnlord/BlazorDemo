@@ -1,0 +1,45 @@
+﻿@page "/account/confirmemail/"
+
+@using BlazorDemo.Common.Extensions
+@using BlazorDemo.Common.Models.Account.ViewModels
+@inherits ConfirmEmailBase
+
+@if (!IsEmailConfirmed)
+{
+    <EditForm EditContext="EditContext" OnValidSubmit="@FormConfirmEmail_ValidSubmitAsync">
+        <CustomDataAnnotationsValidator @ref="_validator" />
+        <div class="row">
+            <div class="col-12">
+                <h3>Confirm Email</h3>
+                <hr class="mt-10px" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                <label for="inputEmail" class="col-form-label">@($"{ConfirmUserVM.GetDisplayName(nameof(ConfirmUserVM.Email))}:")</label>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                <InputText @bind-Value="ConfirmUserVM.Email" id="inputEmail" class="form-control" placeholder="@($"{ConfirmUserVM.GetDisplayName(nameof(ConfirmUserVM.Email))}...")" />
+            </div>
+            <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                <CustomValidationMessage For="@(() => ConfirmUserVM.Email)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+                <label for="inputConfirmationCode" class="col-form-label">@($"{ConfirmUserVM.GetDisplayName(nameof(ConfirmUserVM.ConfirmationCode))}:")</label>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                <InputText @bind-Value="ConfirmUserVM.ConfirmationCode" id="inputConfirmationCode" class="form-control" placeholder="@($"{ConfirmUserVM.GetDisplayName(nameof(ConfirmUserVM.ConfirmationCode))}...")" />
+            </div>
+            <div class="col-xl-7 col-lg-5 col-12 d-none-if-empty">
+                <CustomValidationMessage For="@(() => ConfirmUserVM.ConfirmationCode)" class="validation-message-inline-from-lg"></CustomValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-3 col-sm-5 col-12 offset-xl-2 offset-lg-3">
+                <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnConfirmEmailState">Confirm Email</CustomButton>
+            </div>
+        </div>
+    </EditForm>
+}

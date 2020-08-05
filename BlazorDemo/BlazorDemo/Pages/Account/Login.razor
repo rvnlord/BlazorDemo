@@ -1,0 +1,140 @@
+﻿@page "/account/login/"
+@using BlazorDemo.Common.Converters
+@using BlazorDemo.Common.Extensions
+@using BlazorDemo.Common.Models.Account.ViewModels
+@inherits LoginBase
+
+@if (AuthenticatedUser != null && !IsAuthorized())@* 'AuthenticatedUser != null' trick prevents from login box flickering into visibility in prerender state *@
+{
+    <div class="row">
+        <div class="col-md-6 p-0">
+            <EditForm Model="LoginUserVM" OnValidSubmit="@FormLogin_ValidSubmitAsync">
+                <CustomDataAnnotationsValidator @ref="_validator" />
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Local Login</h3>
+                        <hr class="mt-10px" />
+                    </div>
+                </div>
+                <div class="row">
+                    @{ var displayEmail = LoginUserVM.GetDisplayName(nameof(LoginUserVM.Email)); }
+                    <div class="col-sm-3 col-12">
+                        <label for="inputEmail" class="col-form-label">@($"{displayEmail}:")</label>
+                    </div>
+                    <div class="col-sm-9 col-12">
+                        <InputText @bind-Value="LoginUserVM.Email" id="inputEmail" class="form-control" placeholder="@($"{displayEmail}...")" />
+                    </div>
+                    <div class="col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => LoginUserVM.Email)"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    @{ var displayPassword = LoginUserVM.GetDisplayName(nameof(LoginUserVM.Password)); }
+                    <div class="col-sm-3 col-12">
+                        <label for="inputPassword" class="col-form-label">@($"{displayPassword}:")</label>
+                    </div>
+                    <div class="col-sm-9 col-12">
+                        <InputText type="password" @bind-Value="LoginUserVM.Password" id="inputPassword" class="form-control" placeholder="@($"{displayPassword}...")" />
+                    </div>
+                    <div class="col-12 d-none-if-empty">
+                        <CustomValidationMessage For="@(() => LoginUserVM.Password)"></CustomValidationMessage>
+                    </div>
+                </div>
+                <div class="row">
+                    @{ var displayRememberMe = LoginUserVM.GetDisplayName(nameof(LoginUserVM.RememberMe)); }
+                    <div class="offset-sm-3 col-sm-9 col-12">
+                        <label class="my-checkbox-container">
+                            <input type="checkbox" id="cbRememberme" @bind="LoginUserVM.RememberMe" />
+                            <span class="my-checkmark"></span>
+                            <label class="my-checkbox-label" for="cbRememberme">@displayRememberMe</label>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-3 col-xl-4 col-lg-5 col-sm-6 col-12">
+                        <CustomButton Styling="ButtonStyling.Primary" ButtonState="_btnLoginState">Log In</CustomButton>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-3 col-sm-9 col-12">
+                        @if (_btnStates.All(s => s == ButtonState.Enabled))
+                        {
+                            <a href="@($"/account/ForgotPassword/?returnUrl={LoginUserVM.ReturnUrl}")">Forgot Password</a>
+                        }
+                        else
+                        {
+                            <span style="color: #404040">Forgot Password</span>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-3 col-sm-9 col-12">
+                        @if (_btnStates.All(s => s == ButtonState.Enabled))
+                        {
+                            <a href="@($"/account/Register?returnUrl={LoginUserVM.ReturnUrl.HtmlEncode()}")">Register</a>
+                        }
+                        else
+                        {
+                            <span style="color: #404040">Register</span>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-3 col-sm-9 col-12">
+                        @if (_btnStates.All(s => s == ButtonState.Enabled))
+                        {
+                            <a href="/Account/ResendEmailConfirmation">Resend Email Confirmation</a>
+                        }
+                        else
+                        {
+                            <span style="color: #404040">Resend Email Confirmation</span>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-3 col-sm-9 col-12">
+                        @if (_btnStates.All(s => s == ButtonState.Enabled))
+                        {
+                            <a href="@($"/Account/ConfirmEmail?email={LoginUserVM?.Email ?? ""}")">I already have Confirmation Code</a>
+                        }
+                        else
+                        {
+                            <span style="color: #404040">I already have Confirmation Code</span>
+                        }
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+        <div class="col-md-6 p-0">
+            <div class="row">
+                <div class="col-12">
+                    <h3>External Login</h3>
+                    <hr class="mt-10px" />
+                </div>
+            </div>
+            <div class="row">
+                @{
+                    if (LoginUserVM.ExternalLogins.Count == 0)
+                    {
+                        <div class="col-12">
+                            <div>No External Login providers Defined</div>
+                        </div>
+                    }
+                    else
+                    {
+
+                        @foreach (var provider in LoginUserVM.ExternalLogins)
+                        {
+                            <div class="col-xl-3 col-sm-4 col-12">
+                                <CustomButton Styling="ButtonStyling.Brand" ButtonState="_btnExternalLoginStates[provider.Name]" OnClick="@(e => ButtonExternalLogin_Click(e, provider.Name))">
+                                    <span class="fab fa-@provider.DisplayName.ToLowerInvariant()"></span><span>@provider.DisplayName</span>
+                                </CustomButton>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}
+

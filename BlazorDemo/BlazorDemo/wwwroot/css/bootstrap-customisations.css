@@ -169,12 +169,22 @@ label {
     padding: calc((0.75rem + 2px) / 2) 0;
 }
 
-.col-form-label:not(:first-child) {
+.col-form-label-sm {
+    line-height: 1.5;
+    padding: calc((0.25rem + 2px) / 2) 0;
+}
+
+.col-form-label-lg {
+    line-height: 1.5;
+    padding: calc((1rem + 2px) / 2) 0;
+}
+
+.col-form-label:not(:first-child), .col-form-label-sm:not(:first-child), .col-form-label-lg:not(:first-child) {
     padding-top: 0;
 }
 
 @media (max-width: 575.98px) {
-    .col-form-label {
+    .col-form-label, .col-form-label-sm, .col-form-label-lg {
         padding-top: 0;
         padding-bottom: 0;
     }
@@ -210,6 +220,14 @@ label {
     padding-right: 10px !important;
 }
 
+.mt-5px {
+    margin-top: 5px !important;
+}
+
+.mt-10px {
+    margin-top: 10px !important;
+}
+
 .ml-5px {
     margin-left: 5px !important;
 }
@@ -228,6 +246,10 @@ label {
 
 .mb-10px {
     margin-bottom: 10px !important;
+}
+
+.mb-5px {
+    margin-bottom: 5px !important;
 }
 
 .mt-10px {
@@ -367,6 +389,7 @@ mark, .mark {
     box-shadow: 0 0 6px 2px #000090;
     color: white;
     border: 1px solid #000090;
+    height: 100%;
 }
 
 .card-deck .card {
@@ -448,6 +471,7 @@ mark, .mark {
     height: calc(1.5rem + 16px);
     font-weight: 400;
     padding: 8px 10px;
+    display: flex;
 }
 
     .nav-tabs .nav-link.active,
@@ -496,6 +520,17 @@ mark, .mark {
 .tab-pane.show {
     -webkit-animation: fadeIn 0.5s ease-in-out;
     animation: fadeIn 0.5s ease-in-out;
+}
+
+.navbar svg {
+    width: 20px !important;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.navbar-clear {
+    background: transparent;
+    box-shadow: none;
 }
 
 @-webkit-keyframes fadeIn {
@@ -698,22 +733,25 @@ textarea.form-control {
 }
 
 @media (min-width: 992px) {
-    .validation-message {
+    .validation-message-inline-from-lg {
         padding: calc((0.75rem + 2px) / 2) 0;
     }
 
-    .validation-message-sm {
+    .validation-message-sm-inline-from-lg {
         padding: calc((0.25rem + 2px) / 2) 0;
     }
 
-    .validation-message-lg {
+    .validation-message-lg-inline-from-lg {
         padding: calc((1rem + 2px) / 2) 0;
     }
 
-    .validation-message:not(:first-child), .validation-message-sm:not(:first-child), .validation-message-lg:not(:first-child) {
-        padding-top: 0;
-    }
+        .validation-message-inline-from-lg:not(:first-child), 
+        .validation-message-sm-inline-from-lg:not(:first-child),
+        .validation-message-lg-inline-from-lg:not(:first-child) {
+            padding-top: 0;
+        }
 }
+
 
 .validation-message.valid {
     color: #009000;
@@ -947,6 +985,7 @@ select {
 /* #endregion */
 
 /* #region DATE PICKER (JQUERY UI) */
+
 .ui-datepicker.ui-widget.ui-widget-content {
     background: linear-gradient(to bottom, #303030, #000000);
     color: white;
@@ -1008,6 +1047,7 @@ select {
 /* #endregion */
 
 /* #region IMAGE */
+
 .image-thumbnail {
     max-width: 200px;
     max-height: 200px;
@@ -1125,8 +1165,11 @@ input[type='checkbox']:hover:not([disabled]):not([readonly]) + .my-checkmark, .i
 .my-checkbox-label {
     margin: 0 0 0 10px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .d-inline-flex > .my-checkbox-container > .my-checkbox-label {
@@ -1544,6 +1587,20 @@ input[type='radio'][disabled] ~ .my-radiobutton-label {
         cursor: default;
     }
 
+.btn-brand {
+    flex-direction: column;
+    height: 86px;
+}
+
+    .btn-brand svg, .btn-brand svg.svg-inline--fa.fa-w-16 {
+        height: 2.5em;
+        width: 2.5em;
+    }
+
+.btn-brand span {
+    margin-top: 5px;
+}
+
 button:focus {
     outline: none;
 }
@@ -1595,9 +1652,17 @@ button:focus {
 /* #endregion */
 
 /* #region ALERT */
+
 .alert {
     padding: 10px 20px;
     margin-bottom: 0;
+    margin: 5px;
+    display: inline-block;
+    width: calc(100% - 10px);
+}
+
+.alert.d-none {
+    margin: 0;
 }
 
 .alert-primary {

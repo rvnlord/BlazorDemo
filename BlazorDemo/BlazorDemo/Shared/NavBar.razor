@@ -1,0 +1,49 @@
+﻿@using BlazorDemo.Common.Converters
+@inherits NavBarBase
+
+<ul class="nav flex-row">
+    <AuthorizeView>
+        <NotAuthorized>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="@($"/account/login?returnUrl={CurrentUrl?.HtmlEncode()}")" Match="NavLinkMatch.All">
+                    <span class="fa fa-user-lock" aria-hidden="true"></span><span>Login</span>
+                </NavLink>
+            </li>
+        </NotAuthorized>
+        <Authorized>
+            @if (AuthenticatedUser?.HasRole("Admin") == true)
+            {
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="@($"/admin/users")" Match="NavLinkMatch.All">
+                        <span class="fa fa-users" aria-hidden="true"></span><span>Manage Users</span>
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="@($"/admin/roles")" Match="NavLinkMatch.All">
+                        <span class="fa fa-theater-masks" aria-hidden="true"></span><span>Manage Roles</span>
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="@($"/admin/claims")" Match="NavLinkMatch.All">
+                        <span class="fa fa-boxes" aria-hidden="true"></span><span>Manage Claims</span>
+                    </NavLink>
+                </li>
+            }
+            <li class="nav-item">
+                <NavLink class="nav-link" Match="NavLinkMatch.All" @onclick="BtnLogout_ClickAsync">
+                    <span class="fa fa-sign-out-alt" aria-hidden="true"></span><span>Logout</span>
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="@($"/account/edit")" Match="NavLinkMatch.All">
+                    <span class="fa fa-user-edit" aria-hidden="true"></span><span>Edit</span>
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="@($"/account/login?returnUrl={CurrentUrl?.HtmlEncode()}")" Match="NavLinkMatch.All">
+                    <span class="fa fa-user" aria-hidden="true"></span><span>@AuthenticatedUser?.UserName</span>
+                </NavLink>
+            </li>
+        </Authorized>
+    </AuthorizeView>
+</ul>

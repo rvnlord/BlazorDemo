@@ -23,18 +23,50 @@ This solution has been created by following various tutorials and learning feeds
 * Delete Confirmation Dialog
 * Attribute Splatting
 * Arbitrary Html Attributes
-* `ViewModels` and `AutoMapper`, Force Reloading Components, Tag Helpers, Loading indicator, Custom Supplemental JavaScript Interops, Mobile First Approach
+* Full featured Authentication, Authorization and User Management System (with Identity and as an SPA in pure Blazor without resorting to `Razor Pages` or other half-measures)
+* Login, Logout, Register, Forgot Password, Reset Password, Confirm Email, Resend Confirmation Email, Edit Details
+* Custom and actually working Email Sender Service (using `smtp` protocol, I also coded Gmail API version but I am not providing it because I have no way to test it - Google requires 2+ weeks manual verification and a domain to use `Private` features of their API and sending email is considered as one)
+* Authentication with Password and with External Providers:
+  * Google
+  * Facebook
+  * Twitter
+* Examples of Authentication Peristence as:
+  * Claims Principal
+  * Custom Encrypted Flying Ticket stored in a `Cookie` or/and in `Local Storage`
+* Presistence of Authentication depoendent on User's Remember Me option choice
+* Frontend and Backend Authorization Examples with:
+  * `Authorize Attribute`
+  * `Authorize View`
+  * Custom Code
+* Examples of `Role`, `Claim` and `Policy` based Authorization with custom code, various flavors and customizations
+* Examples of Custom Encryption, Hashing and Signing with `Bouncy Castle` library as a proof of seemlesss integration of external an cryptography provider into Blazor Application
+* Full set of CRUD operations for Users, Roles and Claims
+* Custom `IPasswordHasher` service implementation Example
+* Custom Token Provider Implementation
+* Custom `AuthenticationState` Provider implementation
+* Quality of life Extension, Utility and Converter methods
+* Customised Json Parsers and Custom Json Converters
+* `ViewModels`, `AutoMapper`, Force Reloading Components, Tag Helpers, Loading indicators, Custom Supplemental JavaScript Interops, Mobile First Approach, Status Prompts and Confirmation Dialogs, Seeding initial data and more
 
-![1](/Images/2020-05-24_181137.png?raw=true)
+persisted as Claims Principal with custom 
+* Examples of `Authorize Attribute`
 
-![2](/Images/2020-05-24_181341.png?raw=true)
+![1](/Images/2020-05-24_181341.png?raw=true)
 
-![3](/Images/2020-05-24_181549.png?raw=true)
+![2](/Images/2020-05-24_181549.png?raw=true)
 
+![3](/Images/2020-08-05_171337.png?raw=true)
 
+![4](/Images/2020-08-05_171440.png?raw=true)
 
+![5](/Images/2020-08-05_171548.png?raw=true)
 
+![6](/Images/2020-08-05_171621.png?raw=true)
 
+![7](/Images/2020-08-05_171652.png?raw=true)
 
+![8](/Images/2020-08-05_171745.png?raw=true)
+
+![9](/Images/2020-08-05_172126.png?raw=true)
 
 

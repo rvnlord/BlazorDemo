@@ -1,14 +1,30 @@
-﻿@inherits MainLayoutBase
+﻿@using BlazorDemo.Common.Converters
+@inherits MainLayoutBase
 
-<div class="sidebar">
-    <NavMenu />
-</div>
+<CascadingValue Value="CurrentUrl">
+<CascadingValue Value="AuthenticatedUser">
+<CascadingValue Value="BtnLogout_ClickAsync" TValue="Func<Task>">
 
-<div class="main">
-    <div class="top-row"></div>
-
-    <div class="content">
-        @Body
+    <div class="sidebar">
+        <NavMenu />
     </div>
-</div>
 
+    <div class="main">
+        <div class="top-row navbar navbar-clear">
+            <NavBar />
+        </div>
+
+        <div class="content">
+            <CascadingValue Value="this">
+                @if (PromptMessage != null)
+                {
+                    <Prompt PromptType="@PromptStatus" Message="@PromptMessage"></Prompt>
+                }
+                @Body
+            </CascadingValue>
+        </div>
+    </div>
+
+</CascadingValue>
+</CascadingValue>
+</CascadingValue>
