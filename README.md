@@ -48,9 +48,6 @@ This solution has been created by following various tutorials and learning feeds
 * Customised Json Parsers and Custom Json Converters
 * `ViewModels`, `AutoMapper`, Force Reloading Components, Tag Helpers, Loading indicators, Custom Supplemental JavaScript Interops, Mobile First Approach, Status Prompts and Confirmation Dialogs, Seeding initial data and more
 
-persisted as Claims Principal with custom 
-* Examples of `Authorize Attribute`
-
 ![1](/Images/2020-05-24_181341.png?raw=true)
 
 ![2](/Images/2020-05-24_181549.png?raw=true)
