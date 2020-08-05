@@ -44,8 +44,9 @@ This solution has been created by following various tutorials and learning feeds
 * Custom `IPasswordHasher` service implementation Example
 * Custom Token Provider Implementation
 * Custom `AuthenticationState` Provider implementation
-* Quality of life Extension, Utility and Converter methods
 * Customised Json Parsers and Custom Json Converters
+* Custom HTML Encoding/Decoding solution
+* Quality of life Extension, Utility and Converter methods
 * `ViewModels`, `AutoMapper`, Force Reloading Components, Tag Helpers, Loading indicators, Custom Supplemental JavaScript Interops, Mobile First Approach, Status Prompts and Confirmation Dialogs, Seeding initial data and more
 
 ![1](/Images/2020-05-24_181341.png?raw=true)
