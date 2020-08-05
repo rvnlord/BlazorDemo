@@ -33,13 +33,13 @@ This solution has been created by following various tutorials and learning feeds
 * Examples of Authentication Peristence as:
   * Claims Principal
   * Custom Encrypted Flying Ticket stored in a `Cookie` or/and in `Local Storage`
-* Presistence of Authentication depoendent on User's Remember Me option choice
+* Presistence of Authentication dependent on User's Remember Me option choice
 * Frontend and Backend Authorization Examples with:
   * `Authorize Attribute`
   * `Authorize View`
   * Custom Code
 * Examples of `Role`, `Claim` and `Policy` based Authorization with custom code, various flavors and customizations
-* Examples of Custom Encryption, Hashing and Signing with `Bouncy Castle` library as a proof of seemlesss integration of external an cryptography provider into Blazor Application
+* Examples of Custom Encryption, Hashing and Signing with `Bouncy Castle` library as a proof of seemlesss integration of external cryptography provider into Blazor Application
 * Full set of CRUD operations for Users, Roles and Claims
 * Custom `IPasswordHasher` service implementation Example
 * Custom Token Provider Implementation
