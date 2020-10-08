@@ -30,10 +30,10 @@ This solution has been created by following various tutorials and learning feeds
   * Google
   * Facebook
   * Twitter
-* Examples of Authentication Peristence as:
+* Examples of Authentication Persistence as:
   * Claims Principal
   * Custom Encrypted Flying Ticket stored in a `Cookie` or/and in `Local Storage`
-* Presistence of Authentication dependent on User's Remember Me option choice
+* Persistence of Authentication dependent on User's Remember Me option choice
 * Frontend and Backend Authorization Examples with:
   * `Authorize Attribute`
   * `Authorize View`
